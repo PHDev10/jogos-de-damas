@@ -40,11 +40,7 @@ public class Pedra implements Peca {
         if ((distanciaX == 0) || (distanciaY == 0)) return false;
 
         // REGRA DE MOVIMENTO NO CASO DA DISTÂNCIA SER DE 2 CASAS (MOVIMENTO DE COMER PEÇA)
-        if ((distanciaX <= 2 || distanciaY <= 2) && (distanciaX == distanciaY)) {
-            return true;
-        }
-
-        return false;
+        return (distanciaX <= 2 || distanciaY <= 2) && (distanciaX == distanciaY);
     }
 
     @Override

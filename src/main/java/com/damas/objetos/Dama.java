@@ -25,8 +25,6 @@ public class Dama extends Pedra{
         int distanciaX = Math.abs((destino.getX() - casa.getX()));
         int distanciaY = Math.abs((destino.getY() - casa.getY()));
 
-        if (distanciaX == distanciaY) return true;
-
-        return false;
+        return distanciaX == distanciaY;
     }
 }

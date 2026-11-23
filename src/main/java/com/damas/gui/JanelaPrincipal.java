@@ -1,7 +1,5 @@
 package com.damas.gui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -17,6 +15,8 @@ import com.damas.objetos.Jogo;
 
 public class JanelaPrincipal extends JFrame {
 
+    private static final int LIMITE_JOGADAS_SEM_COMER_PECA = 20;
+
     private Jogo jogo;
     private boolean primeiroClique;
     private CasaGUI casaClicadaOrigem;
@@ -31,31 +31,15 @@ public class JanelaPrincipal extends JFrame {
         criarNovoJogo();
 
         // configura action listener para o menu novo
-        menuNovo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                criarNovoJogo();
-            }
-        });
+        menuNovo.addActionListener(e -> criarNovoJogo());
         
         // configura action listener para o menu status
-        menuStatus.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {JOptionPane.showMessageDialog(null, jogo.toString());}
-        });
-
-        // configura action listener para o menu status
-        menuStatus.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {JOptionPane.showMessageDialog(null, jogo.toString());}
-        });
+        // Registrado duas vezes de propósito: o jogo original exibe o diálogo duas vezes (comportamento preservado)
+        menuStatus.addActionListener(e -> exibirStatus());
+        menuStatus.addActionListener(e -> exibirStatus());
 
         // configura action listener para o menu sair
-        menuSair.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
+        menuSair.addActionListener(e -> dispose());
 
         super.setLocationRelativeTo(null);
         super.setVisible(true);
@@ -85,8 +69,8 @@ public class JanelaPrincipal extends JFrame {
             atualizar();
         }
         
-        if (jogo.getJogadasSemComerPecas() == 20) {
-            JOptionPane.showMessageDialog(this, "FIM DE JOGO! \n" + "20 Jogadas sem comer nenhuma peça!");
+        if (jogo.getJogadasSemComerPecas() == LIMITE_JOGADAS_SEM_COMER_PECA) {
+            JOptionPane.showMessageDialog(this, "FIM DE JOGO! \n" + LIMITE_JOGADAS_SEM_COMER_PECA + " Jogadas sem comer nenhuma peça!");
             criarNovoJogo();
         }
 
@@ -112,6 +96,10 @@ public class JanelaPrincipal extends JFrame {
         atualizar();
     }
 
+    private void exibirStatus() {
+        JOptionPane.showMessageDialog(null, jogo.toString());
+    }
+
     private void atualizar() {
         tabuleiroGUI.atualizar(jogo);
     }
@@ -119,142 +107,137 @@ public class JanelaPrincipal extends JFrame {
     private void initComponents() {
 
         pnlLinhas = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        rotuloLinha7 = new javax.swing.JLabel();
+        rotuloLinha6 = new javax.swing.JLabel();
+        rotuloLinha5 = new javax.swing.JLabel();
+        rotuloLinha4 = new javax.swing.JLabel();
+        rotuloLinha3 = new javax.swing.JLabel();
+        rotuloLinha2 = new javax.swing.JLabel();
+        rotuloLinha1 = new javax.swing.JLabel();
+        rotuloLinha0 = new javax.swing.JLabel();
         pnlColunas = new javax.swing.JPanel();
-        lbl_a = new javax.swing.JLabel();
-        lbl_b = new javax.swing.JLabel();
-        lbl_c = new javax.swing.JLabel();
-        lbl_d = new javax.swing.JLabel();
-        lbl_e = new javax.swing.JLabel();
-        lbl_f = new javax.swing.JLabel();
-        lbl_g = new javax.swing.JLabel();
-        lbl_h = new javax.swing.JLabel();
+        rotuloColuna0 = new javax.swing.JLabel();
+        rotuloColuna1 = new javax.swing.JLabel();
+        rotuloColuna2 = new javax.swing.JLabel();
+        rotuloColuna3 = new javax.swing.JLabel();
+        rotuloColuna4 = new javax.swing.JLabel();
+        rotuloColuna5 = new javax.swing.JLabel();
+        rotuloColuna6 = new javax.swing.JLabel();
+        rotuloColuna7 = new javax.swing.JLabel();
         tabuleiroGUI = new TabuleiroGUI(this);
-        jMenuBar1 = new javax.swing.JMenuBar();
+        barraMenu = new javax.swing.JMenuBar();
         menuArquivo = new javax.swing.JMenu();
         menuNovo = new javax.swing.JMenuItem();
-        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        separadorMenu1 = new javax.swing.JPopupMenu.Separator();
         menuStatus = new javax.swing.JMenuItem();
-        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        separadorMenu2 = new javax.swing.JPopupMenu.Separator();
         menuSair = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         pnlLinhas.setLayout(new java.awt.GridLayout(8, 1));
 
-        jLabel3.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("7");
-        pnlLinhas.add(jLabel3);
+        rotuloLinha7.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
+        rotuloLinha7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        rotuloLinha7.setText("7");
+        pnlLinhas.add(rotuloLinha7);
 
-        jLabel4.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("6");
-        pnlLinhas.add(jLabel4);
+        rotuloLinha6.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
+        rotuloLinha6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        rotuloLinha6.setText("6");
+        pnlLinhas.add(rotuloLinha6);
 
-        jLabel5.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("5");
-        pnlLinhas.add(jLabel5);
+        rotuloLinha5.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
+        rotuloLinha5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        rotuloLinha5.setText("5");
+        pnlLinhas.add(rotuloLinha5);
 
-        jLabel6.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("4");
-        pnlLinhas.add(jLabel6);
+        rotuloLinha4.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
+        rotuloLinha4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        rotuloLinha4.setText("4");
+        pnlLinhas.add(rotuloLinha4);
 
-        jLabel7.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("3");
-        pnlLinhas.add(jLabel7);
+        rotuloLinha3.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
+        rotuloLinha3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        rotuloLinha3.setText("3");
+        pnlLinhas.add(rotuloLinha3);
 
-        jLabel8.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("2");
-        pnlLinhas.add(jLabel8);
+        rotuloLinha2.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
+        rotuloLinha2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        rotuloLinha2.setText("2");
+        pnlLinhas.add(rotuloLinha2);
 
-        jLabel2.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("1");
-        pnlLinhas.add(jLabel2);
+        rotuloLinha1.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
+        rotuloLinha1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        rotuloLinha1.setText("1");
+        pnlLinhas.add(rotuloLinha1);
 
-        jLabel1.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("0");
-        pnlLinhas.add(jLabel1);
+        rotuloLinha0.setFont(new java.awt.Font("Abyssinica SIL", 0, 18)); // NOI18N
+        rotuloLinha0.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        rotuloLinha0.setText("0");
+        pnlLinhas.add(rotuloLinha0);
 
         pnlColunas.setLayout(new java.awt.GridLayout(1, 8));
 
-        lbl_a.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
-        lbl_a.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_a.setText("0");
-        pnlColunas.add(lbl_a);
+        rotuloColuna0.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
+        rotuloColuna0.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        rotuloColuna0.setText("0");
+        pnlColunas.add(rotuloColuna0);
 
-        lbl_b.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
-        lbl_b.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_b.setText("1");
-        pnlColunas.add(lbl_b);
+        rotuloColuna1.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
+        rotuloColuna1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        rotuloColuna1.setText("1");
+        pnlColunas.add(rotuloColuna1);
 
-        lbl_c.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
-        lbl_c.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_c.setText("2");
-        pnlColunas.add(lbl_c);
+        rotuloColuna2.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
+        rotuloColuna2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        rotuloColuna2.setText("2");
+        pnlColunas.add(rotuloColuna2);
 
-        lbl_d.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
-        lbl_d.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_d.setText("3");
-        pnlColunas.add(lbl_d);
+        rotuloColuna3.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
+        rotuloColuna3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        rotuloColuna3.setText("3");
+        pnlColunas.add(rotuloColuna3);
 
-        lbl_e.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
-        lbl_e.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_e.setText("4");
-        pnlColunas.add(lbl_e);
+        rotuloColuna4.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
+        rotuloColuna4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        rotuloColuna4.setText("4");
+        pnlColunas.add(rotuloColuna4);
 
-        lbl_f.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
-        lbl_f.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_f.setText("5");
-        pnlColunas.add(lbl_f);
+        rotuloColuna5.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
+        rotuloColuna5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        rotuloColuna5.setText("5");
+        pnlColunas.add(rotuloColuna5);
 
-        lbl_g.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
-        lbl_g.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_g.setText("6");
-        pnlColunas.add(lbl_g);
+        rotuloColuna6.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
+        rotuloColuna6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        rotuloColuna6.setText("6");
+        pnlColunas.add(rotuloColuna6);
 
-        lbl_h.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
-        lbl_h.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_h.setText("7");
-        pnlColunas.add(lbl_h);
+        rotuloColuna7.setFont(new java.awt.Font("Arimo", 0, 18)); // NOI18N
+        rotuloColuna7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        rotuloColuna7.setText("7");
+        pnlColunas.add(rotuloColuna7);
 
         menuArquivo.setText("Jogo");
 
         menuNovo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         menuNovo.setText("Novo");
         menuArquivo.add(menuNovo);
-        menuArquivo.add(jSeparator1);
+        menuArquivo.add(separadorMenu1);
         
         menuStatus.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
         menuStatus.setText("Status");
         menuArquivo.add(menuStatus);
-        menuArquivo.add(jSeparator2);
-
-        menuStatus.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
-        menuStatus.setText("Status");
-        menuArquivo.add(menuStatus);
-        menuArquivo.add(jSeparator2);
+        menuArquivo.add(separadorMenu2);
 
         menuSair.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         menuSair.setText("Sair");
         menuArquivo.add(menuSair);
 
-        jMenuBar1.add(menuArquivo);
+        barraMenu.add(menuArquivo);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(barraMenu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -284,25 +267,25 @@ public class JanelaPrincipal extends JFrame {
         pack();
     }
 
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JPopupMenu.Separator jSeparator2;
-    private javax.swing.JLabel lbl_a;
-    private javax.swing.JLabel lbl_b;
-    private javax.swing.JLabel lbl_c;
-    private javax.swing.JLabel lbl_d;
-    private javax.swing.JLabel lbl_e;
-    private javax.swing.JLabel lbl_f;
-    private javax.swing.JLabel lbl_g;
-    private javax.swing.JLabel lbl_h;
+    private javax.swing.JLabel rotuloLinha0;
+    private javax.swing.JLabel rotuloLinha1;
+    private javax.swing.JLabel rotuloLinha7;
+    private javax.swing.JLabel rotuloLinha6;
+    private javax.swing.JLabel rotuloLinha5;
+    private javax.swing.JLabel rotuloLinha4;
+    private javax.swing.JLabel rotuloLinha3;
+    private javax.swing.JLabel rotuloLinha2;
+    private javax.swing.JMenuBar barraMenu;
+    private javax.swing.JPopupMenu.Separator separadorMenu1;
+    private javax.swing.JPopupMenu.Separator separadorMenu2;
+    private javax.swing.JLabel rotuloColuna0;
+    private javax.swing.JLabel rotuloColuna1;
+    private javax.swing.JLabel rotuloColuna2;
+    private javax.swing.JLabel rotuloColuna3;
+    private javax.swing.JLabel rotuloColuna4;
+    private javax.swing.JLabel rotuloColuna5;
+    private javax.swing.JLabel rotuloColuna6;
+    private javax.swing.JLabel rotuloColuna7;
     private javax.swing.JMenu menuArquivo;
     private javax.swing.JMenuItem menuNovo;
     private javax.swing.JMenuItem menuSair;

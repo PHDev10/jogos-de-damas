@@ -32,7 +32,7 @@ public interface Peca {
      * {@code int} 0 - {@code Pedra} branca
      * <li>{@code int} 1 - {@code Dama} branca</li>
      * <li>{@code int} 2 - {@code Pedra} vermelha</li>
-     * <li>{@code int} 3 - {@code Dama} verelha</li>
+     * <li>{@code int} 3 - {@code Dama} vermelha</li>
      */
     public int getTipo();
 }
