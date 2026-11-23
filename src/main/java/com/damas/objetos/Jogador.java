@@ -6,6 +6,7 @@ package com.damas.objetos;
  */
 public class Jogador {
     public static final String DEFAULT_NAME = "Anônimo";
+    private static final int TAMANHO_MAXIMO_NOME = 16;
     
     private String nome;
     private int pontos;
@@ -22,8 +23,7 @@ public class Jogador {
     }
 
     private boolean validarNome(String nome) {
-        if (nome.length() > 16) return false;
-        return true;
+        return nome.length() <= TAMANHO_MAXIMO_NOME;
     }
 
     public void addPonto() {

@@ -20,9 +20,6 @@ public class TabuleiroGUI extends JPanel {
     private JanelaPrincipal janela;
     private CasaGUI[][] casas;
 
-    public TabuleiroGUI() {
-    }
-
     public TabuleiroGUI(JanelaPrincipal janela) {
         this.janela = janela;
         initComponents();
@@ -33,11 +30,11 @@ public class TabuleiroGUI extends JPanel {
      * Preenche o tabuleiro com 64 casas
      */
     private void criarCasas() {
-        casas = new CasaGUI[8][8];
+        casas = new CasaGUI[Tabuleiro.MAX_LINHAS][Tabuleiro.MAX_COLUNAS];
         // De cima para baixo
-        for (int y = 7; y >= 0; y--) {
+        for (int y = Tabuleiro.MAX_COLUNAS - 1; y >= 0; y--) {
             // Da esquerda para a direita
-            for (int x = 0; x < 8; x++) {
+            for (int x = 0; x < Tabuleiro.MAX_LINHAS; x++) {
                 Color cor = calcularCor(x, y);
                 CasaGUI casa = new CasaGUI(x, y, cor, this);
                 casas[x][y] = casa;
@@ -47,36 +44,12 @@ public class TabuleiroGUI extends JPanel {
     }
 
     private Color calcularCor(int x, int y) {
-        // linha par
-        if (x % 2 == 0) {
-            // coluna �mpar
-            if (y % 2 == 0) {
-                return CasaGUI.COR_ESCURA;
-            }
-            // coluna impar
-            else {
-                return CasaGUI.COR_CLARA;
-            }
-        }
-        // linha �mpar
-        else {
-            // coluna par
-            if (y % 2 == 0) {
-                return CasaGUI.COR_CLARA;
-            }
-            // coluna �mpar
-            else {
-                return CasaGUI.COR_ESCURA;
-            }
-        }
-
-        // codigo acima em uma linha
-        // return (i%2 + j%2)%2 == 0 ? CasaGUI.COR_ESCURA : CasaGUI.COR_CLARA;
+        return (x % 2 + y % 2) % 2 == 0 ? CasaGUI.COR_ESCURA : CasaGUI.COR_CLARA;
     }
 
     public void atualizar(Jogo jogo) {
-        for (int x = 0; x < 8; x++) {
-            for (int y = 0; y < 8; y++) {
+        for (int x = 0; x < Tabuleiro.MAX_LINHAS; x++) {
+            for (int y = 0; y < Tabuleiro.MAX_COLUNAS; y++) {
                 CasaGUI casaGUI = casas[x][y];
                 
                 Tabuleiro tabuleiro = jogo.getTabuleiro();
@@ -111,6 +84,6 @@ public class TabuleiroGUI extends JPanel {
     }
 
     private void initComponents() {
-        setLayout(new java.awt.GridLayout(8, 8));
+        setLayout(new java.awt.GridLayout(Tabuleiro.MAX_LINHAS, Tabuleiro.MAX_COLUNAS));
     }
 }

@@ -12,6 +12,17 @@ import java.util.ArrayList;
  */
 public class Jogo {
 
+    private static final int PECAS_POR_JOGADOR = 12;
+    private static final int PONTOS_PARA_VENCER = PECAS_POR_JOGADOR;
+
+    private static final int PRIMEIRA_LINHA_BRANCAS = 0;
+    private static final int ULTIMA_LINHA_BRANCAS = 2;
+    private static final int PRIMEIRA_LINHA_VERMELHAS = 5;
+    private static final int ULTIMA_LINHA_VERMELHAS = 7;
+
+    private static final int LINHA_PROMOCAO_BRANCAS = 7;
+    private static final int LINHA_PROMOCAO_VERMELHAS = 0;
+
     private Tabuleiro tabuleiro;
     private Jogador jogadorUm;
     private Jogador jogadorDois;
@@ -36,7 +47,7 @@ public class Jogo {
     }
     
     /**
-     * Realiza uma serie de paços para comandar uma peça na posicão 
+     * Realiza uma serie de passos para comandar uma peça na posição 
      * (origemX, origemY) fazer um movimento para (destinoX, destinoY).
      * 
      * @param origemX - {@code int} linha da Casa de origem.
@@ -160,12 +171,12 @@ public class Jogo {
 
                 // VE SE TEM UMA PECA DO MESMO TIPO NO CAMNHO, CASO TENHA, RETORNA FALSE
                 if ((peca.getTipo() == Peca.PEDRA_BRANCA || peca.getTipo() == Peca.DAMA_BRANCA) && (pecaAlvo.getTipo() == Pedra.PEDRA_BRANCA || pecaAlvo.getTipo() == Pedra.DAMA_BRANCA)) {
-                    if (pecasAComer.size() > 0) pecasAComer.removeAll(pecasAComer);
+                    if (pecasAComer.size() > 0) pecasAComer.clear();
                     return false;
                 }
 
                 if ((peca.getTipo() == Peca.PEDRA_VERMELHA || peca.getTipo() == Peca.DAMA_VERMELHA) && (pecaAlvo.getTipo() == Pedra.PEDRA_VERMELHA || pecaAlvo.getTipo() == Pedra.DAMA_VERMELHA)) {
-                    if (pecasAComer.size() > 0) pecasAComer.removeAll(pecasAComer);
+                    if (pecasAComer.size() > 0) pecasAComer.clear();
                     return false;
                 }
 
@@ -180,7 +191,7 @@ public class Jogo {
             }
 
             if (casasComPecaSeguidas == 2) {
-                if (pecasAComer.size() > 0) pecasAComer.removeAll(pecasAComer);
+                if (pecasAComer.size() > 0) pecasAComer.clear();
                 return false;
             }
         }
@@ -189,7 +200,7 @@ public class Jogo {
 
     /**
      * <p>
-     * Percorre as casas do tabuleirio a partir da casa de origem indicada no sentido dado
+     * Percorre as casas do tabuleiro a partir da casa de origem indicada no sentido dado
      * por {@code sentidoX} e {@code sentidoY} até o limite do tabuleiro.
      * </p>
      * @param origem Casa de origem da peça
@@ -288,32 +299,15 @@ public class Jogo {
      * Dispara o método {@code percorrerEVerificar()} no sentido
      * das quatro diagonais a partir da casa indicada.
      * </p>
-     * @param origem tipo {@code Casa} de onde vai partir a verifição
+     * @param origem tipo {@code Casa} de onde vai partir a verificação
      * @return {@code true} Se há peça para comer em alguma diagonal
      */
     private boolean deveContinuarJogando(Casa origem) {
 
-        if (percorrerEVerificar(origem, Tabuleiro.X_ESQUERDA, Tabuleiro.Y_CIMA)) {
-            return true;
-        } else {
-            
-            if (percorrerEVerificar(origem, Tabuleiro.X_DIREITA, Tabuleiro.Y_CIMA)) {
-                return true;
-            } else {
-                        
-                if (percorrerEVerificar(origem, Tabuleiro.X_DIREITA, Tabuleiro.Y_BAIXO)) {
-                    return true;
-                } else {
-
-                    if (percorrerEVerificar(origem, Tabuleiro.X_ESQUERDA, Tabuleiro.Y_BAIXO)) {
-                        return true;
-                    }                    
-                }
-            }
-
-        }
-
-        return false;
+        return percorrerEVerificar(origem, Tabuleiro.X_ESQUERDA, Tabuleiro.Y_CIMA)
+            || percorrerEVerificar(origem, Tabuleiro.X_DIREITA, Tabuleiro.Y_CIMA)
+            || percorrerEVerificar(origem, Tabuleiro.X_DIREITA, Tabuleiro.Y_BAIXO)
+            || percorrerEVerificar(origem, Tabuleiro.X_ESQUERDA, Tabuleiro.Y_BAIXO);
     } 
 
     /**
@@ -329,7 +323,7 @@ public class Jogo {
             casa.removerPeca();
         }
 
-        pecasAComer.removeAll(pecasAComer);
+        pecasAComer.clear();
 
         jogadasSemComerPeca = 0;
     }
@@ -343,12 +337,12 @@ public class Jogo {
         
         // REGRA PARA PEÇAS BRANCAS
         if (casa.getPeca().getTipo() == Peca.PEDRA_BRANCA) {
-            if (casa.getY() == 7) return true;
+            if (casa.getY() == LINHA_PROMOCAO_BRANCAS) return true;
         }
         
         // REGRA PARA PEÇAS VERMELHAS
         if (casa.getPeca().getTipo() == Peca.PEDRA_VERMELHA) {
-            if (casa.getY() == 0) return true;
+            if (casa.getY() == LINHA_PROMOCAO_VERMELHAS) return true;
         }
 
         return false;
@@ -362,11 +356,9 @@ public class Jogo {
         Pedra pedra = casa.getPeca();
 
         if (pedra.getTipo() == Peca.PEDRA_BRANCA) {
-            Dama dama = new Dama(casa, Peca.DAMA_BRANCA);
-            pedra = (Dama) dama;
+            new Dama(casa, Peca.DAMA_BRANCA);
         } else {
-            Dama dama = new Dama(casa, Peca.DAMA_VERMELHA);
-            pedra = (Dama) dama;
+            new Dama(casa, Peca.DAMA_VERMELHA);
         }
     }
 
@@ -378,8 +370,8 @@ public class Jogo {
     public void colocarPecas(Tabuleiro tabuleiro) {
 
         // CRIA E PÕE AS PEÇAS NA PARTE INFERIOR DO TABULEIRO
-        for (int x = 0; x < 8; x++) {
-            for (int y = 0; y < 3; y++) {
+        for (int x = 0; x < Tabuleiro.MAX_LINHAS; x++) {
+            for (int y = PRIMEIRA_LINHA_BRANCAS; y <= ULTIMA_LINHA_BRANCAS; y++) {
                 if((x % 2 == 0) && (y % 2 == 0)) {
                     Casa casa = tabuleiro.getCasa(x, y);
                     new Pedra(casa, Pedra.PEDRA_BRANCA);
@@ -393,8 +385,8 @@ public class Jogo {
 
         }
         // CRIA E POE AS PEÇAS NA PARTE SUPERIOR DO TABULEIRO
-        for (int x = 0; x < 8; x++) {
-            for (int y = 5; y < 8; y++) {
+        for (int x = 0; x < Tabuleiro.MAX_LINHAS; x++) {
+            for (int y = PRIMEIRA_LINHA_VERMELHAS; y <= ULTIMA_LINHA_VERMELHAS; y++) {
                 if ((x % 2 != 0) && (y % 2 != 0)) {
                     Casa casa = tabuleiro.getCasa(x, y);
                     new Pedra(casa, Peca.PEDRA_VERMELHA);
@@ -411,11 +403,7 @@ public class Jogo {
      * Troca a vez do jogador que pode mover no tabuleiro
      */
     public void trocarDeVez() {
-        if (vezAtual == 1) {
-            vezAtual = 2;
-        } else {
-            vezAtual = 1;
-        }
+        vezAtual = (vezAtual == 1) ? 2 : 1;
     }
 
     /**
@@ -423,11 +411,11 @@ public class Jogo {
      * @return
      * {@code int } 0 - Nenhum jogador
      * <li> {@code int} 1 - Jogador um </li>
-     * <li> {@code int} 1 - Jogador dois </li>
+     * <li> {@code int} 2 - Jogador dois </li>
      */
     public int getGanhador() {
-        if (jogadorUm.getPontos() == 12) return 1;
-        if (jogadorDois.getPontos() == 12) return 2;
+        if (jogadorUm.getPontos() == PONTOS_PARA_VENCER) return 1;
+        if (jogadorDois.getPontos() == PONTOS_PARA_VENCER) return 2;
         return 0;
     }
 
@@ -492,11 +480,11 @@ public class Jogo {
         retorno += "\n";
         retorno += "Informações do(a) jogador(a) " + jogadorUm.getNome() + "\n";
         retorno += "Pontos: " + jogadorUm.getPontos() + "\n";
-        retorno += "Nº de peças restantes: " + (12 - jogadorDois.getPontos()) + "\n";
+        retorno += "Nº de peças restantes: " + (PECAS_POR_JOGADOR - jogadorDois.getPontos()) + "\n";
         retorno += "\n";        
         retorno += "Informações do(a) jogador(a) " + jogadorDois.getNome() + "\n";
         retorno += "Pontos: " + jogadorDois.getPontos() + "\n";
-        retorno += "Nº de peças restantes: " + (12 - jogadorUm.getPontos()) + "\n";
+        retorno += "Nº de peças restantes: " + (PECAS_POR_JOGADOR - jogadorUm.getPontos()) + "\n";
 
         if (casaBloqueadaOrigem != null) {
             retorno += "\n";
