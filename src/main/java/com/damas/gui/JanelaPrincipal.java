@@ -1,8 +1,10 @@
 package com.damas.gui;
 
+import java.util.Optional;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import com.damas.objetos.Cor;
 import com.damas.objetos.Jogo;
 
 /**
@@ -74,12 +76,9 @@ public class JanelaPrincipal extends JFrame {
             criarNovoJogo();
         }
 
-        if (jogo.getGanhador()==1) {
-            JOptionPane.showMessageDialog(this, "FIM DE JOGO! \n" + jogo.getJogadorUm().getNome() + " VENCEU!");
-            criarNovoJogo();
-        }
-        else if (jogo.getGanhador()==2) {
-            JOptionPane.showMessageDialog(this, "FIM DE JOGO! \n" + jogo.getJogadorDois().getNome() + " VENCEU!");
+        Optional<Cor> ganhador = jogo.getGanhador();
+        if (ganhador.isPresent()) {
+            JOptionPane.showMessageDialog(this, "FIM DE JOGO! \n" + jogo.getJogador(ganhador.get()).getNome() + " VENCEU!");
             criarNovoJogo();
         }
     }

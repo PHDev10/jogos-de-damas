@@ -17,6 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -111,7 +113,7 @@ class JogoTest {
 
         @Test
         void contadoresIniciais() {
-            assertEquals(1, jogo.getVez());
+            assertEquals(Cor.BRANCA, jogo.getVez());
             assertEquals(0, jogo.getJogada());
             assertEquals(0, jogo.getJogadasSemComerPecas());
             assertNull(jogo.getCasaBloqueada());
@@ -121,7 +123,7 @@ class JogoTest {
         void pontosIniciaisEGanhadorNenhum() {
             assertEquals(0, jogo.getJogadorUm().getPontos());
             assertEquals(0, jogo.getJogadorDois().getPontos());
-            assertEquals(0, jogo.getGanhador());
+            assertEquals(Optional.empty(), jogo.getGanhador());
         }
 
         @Test
@@ -145,9 +147,9 @@ class JogoTest {
         @Test
         void trocarDeVezAlternaEntre1e2() {
             jogo.trocarDeVez();
-            assertEquals(2, jogo.getVez());
+            assertEquals(Cor.VERMELHA, jogo.getVez());
             jogo.trocarDeVez();
-            assertEquals(1, jogo.getVez());
+            assertEquals(Cor.BRANCA, jogo.getVez());
         }
 
         @Test
@@ -177,7 +179,7 @@ class JogoTest {
 
             assertNull(casa(jogo, 0, 2).getPeca());
             assertSame(peca, casa(jogo, 1, 3).getPeca());
-            assertEquals(2, jogo.getVez());
+            assertEquals(Cor.VERMELHA, jogo.getVez());
             assertEquals(1, jogo.getJogada());
             assertEquals(1, jogo.getJogadasSemComerPecas());
             assertNull(jogo.getCasaBloqueada());
@@ -194,7 +196,7 @@ class JogoTest {
 
             assertNull(casa(jogo, 1, 5).getPeca());
             assertSame(peca, casa(jogo, 0, 4).getPeca());
-            assertEquals(1, jogo.getVez());
+            assertEquals(Cor.BRANCA, jogo.getVez());
             assertEquals(2, jogo.getJogada());
             assertEquals(2, jogo.getJogadasSemComerPecas());
         }
@@ -321,7 +323,7 @@ class JogoTest {
             jogo.moverPeca(2, 2, 2, 3);
             jogo.moverPeca(2, 2, 2, 2);
 
-            assertEquals(1, jogo.getVez());
+            assertEquals(Cor.BRANCA, jogo.getVez());
             assertEquals(0, jogo.getJogada());
         }
 
@@ -366,7 +368,7 @@ class JogoTest {
             assertEquals(0, jogo.getJogadorDois().getPontos());
             assertEquals(0, jogo.getJogadasSemComerPecas());
             assertEquals(1, jogo.getJogada());
-            assertEquals(2, jogo.getVez());
+            assertEquals(Cor.VERMELHA, jogo.getVez());
             assertNull(jogo.getCasaBloqueada());
         }
 
@@ -385,7 +387,7 @@ class JogoTest {
             assertEquals(0, jogo.getJogadorUm().getPontos());
             assertEquals(1, jogo.getJogadorDois().getPontos());
             assertEquals(0, jogo.getJogadasSemComerPecas());
-            assertEquals(1, jogo.getVez());
+            assertEquals(Cor.BRANCA, jogo.getVez());
             assertNull(jogo.getCasaBloqueada());
         }
 
@@ -419,7 +421,7 @@ class JogoTest {
 
             assertSame(branca, casa(jogo, 4, 4).getPeca());
             assertSame(casa(jogo, 4, 4), jogo.getCasaBloqueada());
-            assertEquals(1, jogo.getVez());
+            assertEquals(Cor.BRANCA, jogo.getVez());
             assertEquals(1, jogo.getJogada());
             assertEquals(1, jogo.getJogadorUm().getPontos());
             assertEquals(0, jogo.getJogadasSemComerPecas());
@@ -477,7 +479,7 @@ class JogoTest {
             assertNull(casa(jogo, 5, 5).getPeca());
             assertSame(branca, casa(jogo, 6, 6).getPeca());
             assertNull(jogo.getCasaBloqueada());
-            assertEquals(2, jogo.getVez());
+            assertEquals(Cor.VERMELHA, jogo.getVez());
             assertEquals(2, jogo.getJogada());
             assertEquals(0, jogo.getJogadasSemComerPecas());
         }
@@ -518,7 +520,7 @@ class JogoTest {
             assertNull(casa(jogo, 3, 3).getPeca());
             assertSame(branca, casa(jogo, 2, 2).getPeca());
             assertEquals(1, jogo.getJogadorUm().getPontos());
-            assertEquals(2, jogo.getVez());
+            assertEquals(Cor.VERMELHA, jogo.getVez());
         }
 
         @Test
@@ -547,7 +549,7 @@ class JogoTest {
 
             jogo.moverPeca(0, 0, 5, 5);
             assertSame(dama, casa(jogo, 5, 5).getPeca());
-            assertEquals(2, jogo.getVez());
+            assertEquals(Cor.VERMELHA, jogo.getVez());
             assertEquals(1, jogo.getJogadasSemComerPecas());
 
             jogo.moverPeca(7, 7, 6, 6);
@@ -581,7 +583,7 @@ class JogoTest {
             assertSame(dama, casa(jogo, 5, 5).getPeca());
             assertEquals(1, jogo.getJogadorUm().getPontos());
             assertEquals(0, jogo.getJogadasSemComerPecas());
-            assertEquals(2, jogo.getVez());
+            assertEquals(Cor.VERMELHA, jogo.getVez());
             assertNull(jogo.getCasaBloqueada());
         }
 
@@ -598,7 +600,7 @@ class JogoTest {
             assertNull(casa(jogo, 2, 2).getPeca());
             assertNull(casa(jogo, 4, 4).getPeca());
             assertEquals(2, jogo.getJogadorUm().getPontos());
-            assertEquals(2, jogo.getVez());
+            assertEquals(Cor.VERMELHA, jogo.getVez());
         }
 
         @Test
@@ -634,7 +636,7 @@ class JogoTest {
 
             assertSame(dama, casa(jogo, 4, 4).getPeca());
             assertSame(casa(jogo, 4, 4), jogo.getCasaBloqueada());
-            assertEquals(1, jogo.getVez());
+            assertEquals(Cor.BRANCA, jogo.getVez());
             assertEquals(1, jogo.getJogadorUm().getPontos());
         }
 
@@ -651,7 +653,7 @@ class JogoTest {
             assertNull(casa(jogo, 3, 4).getPeca());
             assertSame(dama, casa(jogo, 2, 5).getPeca());
             assertEquals(1, jogo.getJogadorDois().getPontos());
-            assertEquals(1, jogo.getVez());
+            assertEquals(Cor.BRANCA, jogo.getVez());
         }
 
         @Test
@@ -681,7 +683,7 @@ class JogoTest {
             Pedra peca = casa(jogo, 2, 7).getPeca();
             assertInstanceOf(Dama.class, peca);
             assertEquals(Peca.DAMA_BRANCA, peca.getTipo());
-            assertEquals(2, jogo.getVez());
+            assertEquals(Cor.VERMELHA, jogo.getVez());
         }
 
         @Test
@@ -696,7 +698,7 @@ class JogoTest {
             Pedra peca = casa(jogo, 1, 0).getPeca();
             assertInstanceOf(Dama.class, peca);
             assertEquals(Peca.DAMA_VERMELHA, peca.getTipo());
-            assertEquals(1, jogo.getVez());
+            assertEquals(Cor.BRANCA, jogo.getVez());
         }
 
         @Test
@@ -725,7 +727,7 @@ class JogoTest {
             assertInstanceOf(Dama.class, peca);
             assertEquals(Peca.DAMA_BRANCA, peca.getTipo());
             assertEquals(1, jogo.getJogadorUm().getPontos());
-            assertEquals(2, jogo.getVez());
+            assertEquals(Cor.VERMELHA, jogo.getVez());
         }
 
         @Test
@@ -753,12 +755,12 @@ class JogoTest {
             pedraBranca(jogo, 2, 2);
             pedraVermelha(jogo, 3, 3);
             pedraVermelha(jogo, 7, 7);
-            assertEquals(0, jogo.getGanhador());
+            assertEquals(Optional.empty(), jogo.getGanhador());
 
             jogo.moverPeca(2, 2, 4, 4);
 
             assertEquals(12, jogo.getJogadorUm().getPontos());
-            assertEquals(1, jogo.getGanhador());
+            assertEquals(Optional.of(Cor.BRANCA), jogo.getGanhador());
         }
 
         @Test
@@ -769,31 +771,34 @@ class JogoTest {
             pedraBranca(jogo, 2, 2);
             pedraVermelha(jogo, 3, 3);
             jogo.trocarDeVez();
-            assertEquals(0, jogo.getGanhador());
+            assertEquals(Optional.empty(), jogo.getGanhador());
 
             jogo.moverPeca(3, 3, 1, 1);
 
             assertEquals(12, jogo.getJogadorDois().getPontos());
-            assertEquals(2, jogo.getGanhador());
+            assertEquals(Optional.of(Cor.VERMELHA), jogo.getGanhador());
         }
 
         @ParameterizedTest(name = "pontos brancos={0}, vermelhos={1} -> ganhador {2}")
         @CsvSource({
-                "0,0,0",
-                "11,11,0",
-                "12,0,1",
-                "0,12,2",
-                "12,12,1",
-                "13,0,0",
-                "0,13,0",
-                "13,12,2"
+                "0,0,NENHUM",
+                "11,11,NENHUM",
+                "12,0,BRANCA",
+                "0,12,VERMELHA",
+                "12,12,BRANCA",
+                "13,0,NENHUM",
+                "0,13,NENHUM",
+                "13,12,VERMELHA"
         })
-        void getGanhadorSoReconheceExatamente12Pontos(int pontosUm, int pontosDois, int esperado) {
+        void getGanhadorSoReconheceExatamente12Pontos(int pontosUm, int pontosDois, String esperado) {
             Jogo jogo = new Jogo();
             jogo.getJogadorUm().addPonto(pontosUm);
             jogo.getJogadorDois().addPonto(pontosDois);
 
-            assertEquals(esperado, jogo.getGanhador());
+            Optional<Cor> ganhadorEsperado = esperado.equals("NENHUM")
+                    ? Optional.empty()
+                    : Optional.of(Cor.valueOf(esperado));
+            assertEquals(ganhadorEsperado, jogo.getGanhador());
         }
 
         @Test
@@ -805,9 +810,137 @@ class JogoTest {
 
             jogo.moverPeca(2, 2, 3, 3);
 
-            assertEquals(1, jogo.getGanhador());
+            assertEquals(Optional.of(Cor.BRANCA), jogo.getGanhador());
             assertTrue(casa(jogo, 3, 3).possuiPeca());
             assertEquals(1, jogo.getJogada());
+        }
+    }
+
+    // ------------------------------------------------------------------ jogador por cor
+
+    @Nested
+    @DisplayName("Jogador por cor e vez")
+    class JogadorPorCor {
+
+        @Test
+        void vezInicialEBranca() {
+            assertEquals(Cor.BRANCA, new Jogo().getVez());
+        }
+
+        @Test
+        void vezAlternaEntreBrancaEVermelha() {
+            Jogo jogo = new Jogo();
+
+            jogo.trocarDeVez();
+            assertEquals(Cor.VERMELHA, jogo.getVez());
+
+            jogo.trocarDeVez();
+            assertEquals(Cor.BRANCA, jogo.getVez());
+        }
+
+        @Test
+        void ganhadorEhVazioEmJogoNovo() {
+            assertEquals(Optional.empty(), new Jogo().getGanhador());
+            assertFalse(new Jogo().getGanhador().isPresent());
+        }
+
+        @Test
+        void getJogadorBrancaDevolveJogadorUmEVermelhaDevolveJogadorDois() {
+            Jogo jogo = new Jogo();
+
+            assertSame(jogo.getJogadorUm(), jogo.getJogador(Cor.BRANCA));
+            assertSame(jogo.getJogadorDois(), jogo.getJogador(Cor.VERMELHA));
+        }
+
+        @Test
+        void getJogadorAcompanhaSetJogadorUmESetJogadorDois() {
+            Jogo jogo = new Jogo();
+            Jogador um = new Jogador("Ana");
+            Jogador dois = new Jogador("Beto");
+
+            jogo.setJogadorUm(um);
+            jogo.setJogadorDois(dois);
+
+            assertSame(um, jogo.getJogador(Cor.BRANCA));
+            assertSame(dois, jogo.getJogador(Cor.VERMELHA));
+            assertSame(um, jogo.getJogadorUm());
+            assertSame(dois, jogo.getJogadorDois());
+        }
+
+        @Test
+        void pontoDaCapturaVaiParaOJogadorDaCorDaVez() {
+            Jogo jogo = jogoVazio();
+            pedraBranca(jogo, 2, 2);
+            pedraVermelha(jogo, 3, 3);
+            pedraVermelha(jogo, 7, 7);
+
+            jogo.moverPeca(2, 2, 4, 4);
+
+            assertEquals(1, jogo.getJogador(Cor.BRANCA).getPontos());
+            assertEquals(0, jogo.getJogador(Cor.VERMELHA).getPontos());
+        }
+
+        @Test
+        void pontoDeJogadorSubstituidoVaiParaONovoJogador() {
+            Jogo jogo = jogoVazio();
+            Jogador novoBranco = new Jogador("Ana");
+            jogo.setJogadorUm(novoBranco);
+            pedraBranca(jogo, 2, 2);
+            pedraVermelha(jogo, 3, 3);
+            pedraVermelha(jogo, 7, 7);
+
+            jogo.moverPeca(2, 2, 4, 4);
+
+            assertEquals(1, novoBranco.getPontos());
+        }
+
+        @Test
+        void ganhadorBrancoEhIdentificadoPelaCor() {
+            Jogo jogo = new Jogo();
+            jogo.getJogador(Cor.BRANCA).addPonto(12);
+
+            assertEquals(Optional.of(Cor.BRANCA), jogo.getGanhador());
+        }
+
+        @Test
+        void ganhadorVermelhoEhIdentificadoPelaCor() {
+            Jogo jogo = new Jogo();
+            jogo.getJogador(Cor.VERMELHA).addPonto(12);
+
+            assertEquals(Optional.of(Cor.VERMELHA), jogo.getGanhador());
+        }
+
+        @Test
+        void quandoAmbosTem12PontosOGanhadorEBrancoPorPrecedencia() {
+            Jogo jogo = new Jogo();
+            jogo.getJogadorUm().addPonto(12);
+            jogo.getJogadorDois().addPonto(12);
+
+            assertEquals(Optional.of(Cor.BRANCA), jogo.getGanhador());
+        }
+
+        @Test
+        void moverPecaDaCorForaDaVezContinuaSendoRejeitado() {
+            Jogo jogo = jogoVazio();
+            pedraVermelha(jogo, 3, 4);
+            pedraBranca(jogo, 7, 0);
+
+            assertMovimentoRejeitado(jogo, 3, 4, 2, 3);
+
+            jogo.trocarDeVez();
+            jogo.moverPeca(3, 4, 2, 3);
+
+            assertTrue(casa(jogo, 2, 3).possuiPeca());
+            assertEquals(Cor.BRANCA, jogo.getVez());
+        }
+
+        @Test
+        void damaTambemSoMoveNaVezDaSuaCor() {
+            Jogo jogo = jogoVazio();
+            damaVermelha(jogo, 0, 0);
+            pedraBranca(jogo, 7, 0);
+
+            assertMovimentoRejeitado(jogo, 0, 0, 3, 3);
         }
     }
 

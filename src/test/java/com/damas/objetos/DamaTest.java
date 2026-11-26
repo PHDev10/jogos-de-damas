@@ -100,4 +100,18 @@ class DamaTest {
         assertEquals(false, pedra.isMovimentoValido(distante));
         assertTrue(dama.isMovimentoValido(distante));
     }
+
+    @Test
+    void damaBrancaTemCorBranca() {
+        Dama dama = new Dama(tabuleiro.getCasa(0, 0), Peca.DAMA_BRANCA);
+
+        assertEquals(Cor.BRANCA, dama.getCor());
+    }
+
+    @Test
+    void damaVermelhaTemCorVermelha() {
+        Dama dama = new Dama(tabuleiro.getCasa(0, 0), Peca.DAMA_VERMELHA);
+
+        assertEquals(Cor.VERMELHA, dama.getCor());
+    }
 }
