@@ -35,4 +35,12 @@ public interface Peca {
      * <li>{@code int} 3 - {@code Dama} vermelha</li>
      */
     public int getTipo();
+
+    /**
+     * Retorna a cor da peça
+     * @return
+     * {@code Cor.BRANCA} para os tipos 0 e 1 (pedra e dama brancas)
+     * <li>{@code Cor.VERMELHA} para os tipos 2 e 3 (pedra e dama vermelhas)</li>
+     */
+    public Cor getCor();
 }

@@ -1,6 +1,7 @@
 package com.damas.objetos;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 /**
  * Armazena o tabuleiro e responsavel por posicionar as pecas.
@@ -26,7 +27,7 @@ public class Jogo {
     private Tabuleiro tabuleiro;
     private Jogador jogadorUm;
     private Jogador jogadorDois;
-    private int vezAtual = 1; // é necessário iniciar com o valor o valor 1 ou 2
+    private Cor vezAtual = Cor.BRANCA;
     private int jogadas = 0;
     private int jogadasSemComerPeca = 0;
     private ArrayList<Casa> pecasAComer;
@@ -38,7 +39,7 @@ public class Jogo {
         jogadorUm = new Jogador("player branco");
         jogadorDois = new Jogador("player vermelho");
         
-        vezAtual = 1;
+        vezAtual = Cor.BRANCA;
         jogadas = 0;
         jogadasSemComerPeca = 0;
         casaBloqueadaOrigem = null;
@@ -61,8 +62,7 @@ public class Jogo {
         Pedra peca = origem.getPeca();
 
         if (casaBloqueadaOrigem == null) {
-            if ((getVez() == 1 && (peca.getTipo() == Pedra.PEDRA_BRANCA || peca.getTipo() == Pedra.DAMA_BRANCA)) ||
-                (getVez() == 2 && (peca.getTipo() == Pedra.PEDRA_VERMELHA || peca.getTipo() == Pedra.DAMA_VERMELHA))) {
+            if (peca.getCor() == getVez()) {
 
                 if (peca.isMovimentoValido(destino)) {
 
@@ -170,12 +170,7 @@ public class Jogo {
                 casasComPecaSeguidas += 1;
 
                 // VE SE TEM UMA PECA DO MESMO TIPO NO CAMNHO, CASO TENHA, RETORNA FALSE
-                if ((peca.getTipo() == Peca.PEDRA_BRANCA || peca.getTipo() == Peca.DAMA_BRANCA) && (pecaAlvo.getTipo() == Pedra.PEDRA_BRANCA || pecaAlvo.getTipo() == Pedra.DAMA_BRANCA)) {
-                    if (pecasAComer.size() > 0) pecasAComer.clear();
-                    return false;
-                }
-
-                if ((peca.getTipo() == Peca.PEDRA_VERMELHA || peca.getTipo() == Peca.DAMA_VERMELHA) && (pecaAlvo.getTipo() == Pedra.PEDRA_VERMELHA || pecaAlvo.getTipo() == Pedra.DAMA_VERMELHA)) {
+                if (peca.getCor() == pecaAlvo.getCor()) {
                     if (pecasAComer.size() > 0) pecasAComer.clear();
                     return false;
                 }
@@ -236,14 +231,8 @@ public class Jogo {
                     }
 
                     // VERIFICA SE A PEÇA NO CAMINHO É DA MESMA COR
-                    if ((peca.getTipo() == Peca.PEDRA_BRANCA) && 
-                        ((pecaAtual.getTipo() == Peca.DAMA_BRANCA || pecaAtual.getTipo() == Peca.PEDRA_BRANCA))) {
-                            return false;
-                    } else {
-                        if ((peca.getTipo() == Peca.PEDRA_VERMELHA) && 
-                        ((pecaAtual.getTipo() == Peca.DAMA_VERMELHA || pecaAtual.getTipo() == Peca.PEDRA_VERMELHA))) {
-                            return false;
-                        }
+                    if (peca.getCor() == pecaAtual.getCor()) {
+                        return false;
                     }
 
                     return true;
@@ -266,14 +255,8 @@ public class Jogo {
                         pecasSeguidasNoCaminho += 1;
         
                         // VERIFICA SE HÁ ALGUMA PEÇA DO MESMO TIPO NO CAMINHO SE SIM, RETORNA FALSE;
-                        if ((peca.getTipo() == Peca.DAMA_BRANCA) && 
-                            ((pecaAtual.getTipo() == Peca.PEDRA_BRANCA) || (pecaAtual.getTipo() == Peca.DAMA_BRANCA))) {
-                                return false;
-                        } else {
-                            if ((peca.getTipo() == Peca.DAMA_VERMELHA) && 
-                            ((pecaAtual.getTipo() == Peca.PEDRA_VERMELHA) || (pecaAtual.getTipo() == Peca.DAMA_VERMELHA))) {
-                                    return false;
-                            }   
+                        if (peca.getCor() == pecaAtual.getCor()) {
+                            return false;
                         }
                     } else {
         
@@ -316,8 +299,7 @@ public class Jogo {
     private void comerPecas() {
         int pecasComidas = pecasAComer.size();
 
-        if (getVez() == 1) jogadorUm.addPonto(pecasComidas);
-        if (getVez() == 2) jogadorDois.addPonto(pecasComidas);
+        getJogador(vezAtual).addPonto(pecasComidas);
 
         for (Casa casa : pecasAComer) {
             casa.removerPeca();
@@ -403,20 +385,20 @@ public class Jogo {
      * Troca a vez do jogador que pode mover no tabuleiro
      */
     public void trocarDeVez() {
-        vezAtual = (vezAtual == 1) ? 2 : 1;
+        vezAtual = vezAtual.oposta();
     }
 
     /**
      * 
      * @return
-     * {@code int } 0 - Nenhum jogador
-     * <li> {@code int} 1 - Jogador um </li>
-     * <li> {@code int} 2 - Jogador dois </li>
+     * {@code Optional.empty()} - Nenhum jogador
+     * <li> {@code Optional.of(Cor.BRANCA)} - Jogador um </li>
+     * <li> {@code Optional.of(Cor.VERMELHA)} - Jogador dois </li>
      */
-    public int getGanhador() {
-        if (jogadorUm.getPontos() == PONTOS_PARA_VENCER) return 1;
-        if (jogadorDois.getPontos() == PONTOS_PARA_VENCER) return 2;
-        return 0;
+    public Optional<Cor> getGanhador() {
+        if (jogadorUm.getPontos() == PONTOS_PARA_VENCER) return Optional.of(Cor.BRANCA);
+        if (jogadorDois.getPontos() == PONTOS_PARA_VENCER) return Optional.of(Cor.VERMELHA);
+        return Optional.empty();
     }
 
     /**
@@ -443,11 +425,19 @@ public class Jogo {
     }
 
     /**
-     * @return
-     *      {@code int} 1 - jogador branco
-     *  <li>{@code int} 2 - jogador vermelho </li>
+     * @param cor cor do jogador
+     * @return o jogador um para {@code Cor.BRANCA} e o jogador dois para {@code Cor.VERMELHA}
      */
-    public int getVez() {
+    public Jogador getJogador(Cor cor) {
+        return cor == Cor.BRANCA ? jogadorUm : jogadorDois;
+    }
+
+    /**
+     * @return
+     *      {@code Cor.BRANCA} - jogador branco
+     *  <li>{@code Cor.VERMELHA} - jogador vermelho </li>
+     */
+    public Cor getVez() {
         return vezAtual;
     }
 
@@ -467,13 +457,8 @@ public class Jogo {
     public String toString() {
 
         String retorno = "Vez: ";
-        if (getVez() == 1) { 
-            retorno += jogadorUm.getNome();
-            retorno += "\n";
-        } else if (getVez() == 2) {
-            retorno += jogadorDois.getNome();
-            retorno += "\n";
-        }
+        retorno += getJogador(getVez()).getNome();
+        retorno += "\n";
 
         retorno += "Nº de jogadas: " + getJogada() + "\n";
         retorno += "Jogadas sem comer peça: " + getJogadasSemComerPecas() + "\n";

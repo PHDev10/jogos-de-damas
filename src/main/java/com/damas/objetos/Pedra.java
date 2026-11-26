@@ -47,4 +47,9 @@ public class Pedra implements Peca {
     public int getTipo() {
         return tipo;
     }
+
+    @Override
+    public Cor getCor() {
+        return (tipo == PEDRA_BRANCA || tipo == DAMA_BRANCA) ? Cor.BRANCA : Cor.VERMELHA;
+    }
 }

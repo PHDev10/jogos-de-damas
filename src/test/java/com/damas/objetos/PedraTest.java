@@ -110,4 +110,31 @@ class PedraTest {
 
         assertTrue(pedra.isMovimentoValido(tabuleiro.getCasa(5, 5)));
     }
+
+    @Test
+    void pedraBrancaTemCorBranca() {
+        Pedra pedra = new Pedra(tabuleiro.getCasa(0, 0), Peca.PEDRA_BRANCA);
+
+        assertEquals(Cor.BRANCA, pedra.getCor());
+    }
+
+    @Test
+    void pedraVermelhaTemCorVermelha() {
+        Pedra pedra = new Pedra(tabuleiro.getCasa(0, 0), Peca.PEDRA_VERMELHA);
+
+        assertEquals(Cor.VERMELHA, pedra.getCor());
+    }
+
+    @ParameterizedTest(name = "tipo {0} -> cor {1}")
+    @CsvSource({
+            "0,BRANCA",
+            "1,BRANCA",
+            "2,VERMELHA",
+            "3,VERMELHA"
+    })
+    void getCorDerivaDoTipoDaPeca(int tipo, Cor esperada) {
+        Pedra pedra = new Pedra(tabuleiro.getCasa(0, 0), tipo);
+
+        assertEquals(esperada, pedra.getCor());
+    }
 }
