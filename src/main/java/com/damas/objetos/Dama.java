@@ -5,7 +5,7 @@ package com.damas.objetos;
  * <p>Recebe uma casa e uma cor associada</p>
  * @author João Victor da S. Cirilo {@link joao.cirilo@academico.ufpb.br}
  */
-public class Dama extends Pedra{
+public class Dama extends PecaBase {
 
     /**
      * @param casa Objeto Casa
@@ -18,6 +18,11 @@ public class Dama extends Pedra{
     @Override
     public boolean isDama() {
         return true;
+    }
+
+    @Override
+    public boolean podeSerPromovida(Casa casa) {
+        return false;
     }
 
     /**

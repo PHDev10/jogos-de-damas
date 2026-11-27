@@ -134,4 +134,54 @@ class PedraTest {
 
         assertFalse(pedra.isDama());
     }
+
+    @Test
+    void pedraBrancaPodeSerPromovidaNaLinha7() {
+        Pedra pedra = new Pedra(tabuleiro.getCasa(0, 6), Cor.BRANCA);
+
+        assertTrue(pedra.podeSerPromovida(tabuleiro.getCasa(1, 7)));
+    }
+
+    @Test
+    void pedraBrancaNaoPodeSerPromovidaNaLinha6() {
+        Pedra pedra = new Pedra(tabuleiro.getCasa(0, 5), Cor.BRANCA);
+
+        assertFalse(pedra.podeSerPromovida(tabuleiro.getCasa(1, 6)));
+    }
+
+    @Test
+    void pedraBrancaNaoPodeSerPromovidaNaLinhaDePromocaoDaVermelha() {
+        Pedra pedra = new Pedra(tabuleiro.getCasa(1, 1), Cor.BRANCA);
+
+        assertFalse(pedra.podeSerPromovida(tabuleiro.getCasa(0, 0)));
+    }
+
+    @Test
+    void pedraVermelhaPodeSerPromovidaNaLinha0() {
+        Pedra pedra = new Pedra(tabuleiro.getCasa(2, 1), Cor.VERMELHA);
+
+        assertTrue(pedra.podeSerPromovida(tabuleiro.getCasa(1, 0)));
+    }
+
+    @Test
+    void pedraVermelhaNaoPodeSerPromovidaNaLinha1() {
+        Pedra pedra = new Pedra(tabuleiro.getCasa(2, 2), Cor.VERMELHA);
+
+        assertFalse(pedra.podeSerPromovida(tabuleiro.getCasa(1, 1)));
+    }
+
+    @Test
+    void pedraVermelhaNaoPodeSerPromovidaNaLinhaDePromocaoDaBranca() {
+        Pedra pedra = new Pedra(tabuleiro.getCasa(1, 6), Cor.VERMELHA);
+
+        assertFalse(pedra.podeSerPromovida(tabuleiro.getCasa(0, 7)));
+    }
+
+    @Test
+    void podeSerPromovidaOlhaApenasParaACasaInformadaENaoParaAPosicaoDaPedra() {
+        Pedra pedra = new Pedra(tabuleiro.getCasa(0, 0), Cor.BRANCA);
+
+        assertTrue(pedra.podeSerPromovida(tabuleiro.getCasa(5, 7)));
+        assertFalse(pedra.podeSerPromovida(tabuleiro.getCasa(0, 0)));
+    }
 }

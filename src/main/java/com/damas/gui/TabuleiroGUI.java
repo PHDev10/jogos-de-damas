@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 import com.damas.objetos.Casa;
 import com.damas.objetos.Cor;
 import com.damas.objetos.Jogo;
-import com.damas.objetos.Pedra;
+import com.damas.objetos.Peca;
 import com.damas.objetos.Tabuleiro;
 
 /**
@@ -55,7 +55,7 @@ public class TabuleiroGUI extends JPanel {
                 Tabuleiro tabuleiro = jogo.getTabuleiro();
                 Casa casa = tabuleiro.getCasa(x, y);
                 if (casa.possuiPeca()) {
-                    Pedra peca = casa.getPeca();
+                    Peca peca = casa.getPeca();
 
                     if (peca.getCor() == Cor.BRANCA) {
                         if (peca.isDama()) {

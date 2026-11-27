@@ -7,9 +7,8 @@ package com.damas.objetos;
 public interface Peca {
 
     /**
-     * Movimenta a peca para uma nova casa. Antes de trocar de casa a Peca armazena a casa no
-     * campo ultimaCasa, isso servirá para verificar qual sentido em que a peça se moveu para
-     * implementar a lógica de comer peças.
+     * Movimenta a peca para uma nova casa: remove a peça da casa atual, coloca-a na casa de
+     * destino e passa a considerar o destino como a sua casa atual. Não valida o movimento.
      * @param destino nova casa que ira conter esta peca.
      */
     public void mover(Casa destino);
@@ -32,4 +31,11 @@ public interface Peca {
      * @return {@code true} se a peça é uma {@code Dama}, {@code false} se é uma {@code Pedra}
      */
     public boolean isDama();
+
+    /**
+     * Indica se a peça, estando na casa informada, deve ser promovida a dama
+     * @param casa {@code Casa} onde a peça está
+     * @return {@code true} se a peça pode ser promovida nesta casa, {@code false} caso contrário
+     */
+    public boolean podeSerPromovida(Casa casa);
 }
