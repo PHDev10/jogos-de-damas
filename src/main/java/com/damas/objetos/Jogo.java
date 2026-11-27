@@ -13,20 +13,17 @@ import java.util.Optional;
  */
 public class Jogo {
 
-    private static final int PECAS_POR_JOGADOR = 12;
-    private static final int PONTOS_PARA_VENCER = PECAS_POR_JOGADOR;
+    private final int PECAS_POR_JOGADOR = 12;
+    private final int PONTOS_PARA_VENCER = PECAS_POR_JOGADOR;
 
-    private static final int PRIMEIRA_LINHA_BRANCAS = 0;
-    private static final int ULTIMA_LINHA_BRANCAS = 2;
-    private static final int PRIMEIRA_LINHA_VERMELHAS = 5;
-    private static final int ULTIMA_LINHA_VERMELHAS = 7;
+    private final int LINHAS_INICIAIS_POR_JOGADOR = 3;
 
     private Tabuleiro tabuleiro;
     private Jogador jogadorUm;
     private Jogador jogadorDois;
-    private Cor vezAtual = Cor.BRANCA;
-    private int jogadas = 0;
-    private int jogadasSemComerPeca = 0;
+    private Cor vezAtual;
+    private int jogadas;
+    private int jogadasSemComerPeca;
     private ArrayList<Casa> pecasAComer;
     private Casa casaBloqueadaOrigem;
     private final FabricaDePecas fabricaDePecas;
@@ -41,7 +38,7 @@ public class Jogo {
         pecasAComer = new ArrayList<Casa>();
         jogadorUm = new Jogador("player branco");
         jogadorDois = new Jogador("player vermelho");
-        
+
         vezAtual = Cor.BRANCA;
         jogadas = 0;
         jogadasSemComerPeca = 0;
@@ -49,13 +46,13 @@ public class Jogo {
 
         colocarPecas(tabuleiro);
     }
-    
+
     /**
-     * Realiza uma serie de passos para comandar uma peça na posição 
+     * Realiza uma serie de passos para comandar uma peça na posição
      * (origemX, origemY) fazer um movimento para (destinoX, destinoY).
      * 
-     * @param origemX - {@code int} linha da Casa de origem.
-     * @param origemY - {@code int} coluna da Casa de origem.
+     * @param origemX  - {@code int} linha da Casa de origem.
+     * @param origemY  - {@code int} coluna da Casa de origem.
      * @param destinoX - {@code int} linha da Casa de destino.
      * @param destinoY - {@code int} coluna da Casa de destino.
      */
@@ -69,7 +66,7 @@ public class Jogo {
 
                 if (peca.isMovimentoValido(destino)) {
 
-                    if (simularMovimentoEValidar(origem, destino)) {                    
+                    if (simularMovimentoEValidar(origem, destino)) {
 
                         peca.mover(destino);
 
@@ -86,13 +83,14 @@ public class Jogo {
                         }
 
                         jogadas++;
-                        if (podeTransformarParaDama(destino)) transformarPedraParaDama(destino);
+                        if (podeTransformarParaDama(destino))
+                            transformarPedraParaDama(destino);
                     }
                 }
             }
         } else {
             if ((origem.equals(casaBloqueadaOrigem))) {
-                if(simularMovimentoEValidar(origem, destino)) {
+                if (simularMovimentoEValidar(origem, destino)) {
                     if (pecasAComer.size() != 0) {
                         casaBloqueadaOrigem = null;
                         moverPeca(origemX, origemY, destinoX, destinoY);
@@ -105,10 +103,11 @@ public class Jogo {
     /**
      * <p>
      * Percorre as casas da casa de origem clicada até a casa de destino clicada,
-     * verifica se o caminho é valido e adiciona casas a variável {@code pecasAComer} 
-     * </p> 
+     * verifica se o caminho é valido e adiciona casas a variável
+     * {@code pecasAComer}
+     * </p>
      * 
-     * @param origem {@code Casa} de origem
+     * @param origem  {@code Casa} de origem
      * @param destino {@code Casa} de destino
      * @return {@code boolean} se a simulação ocorreu bem
      */
@@ -117,7 +116,8 @@ public class Jogo {
     }
 
     /**
-     * Limpa as peças na variável {@code ArrayList pecasAComer}, adiciona pontos ao jogador
+     * Limpa as peças na variável {@code ArrayList pecasAComer}, adiciona pontos ao
+     * jogador
      */
     private void comerPecas() {
         int pecasComidas = pecasAComer.size();
@@ -135,6 +135,7 @@ public class Jogo {
 
     /**
      * Verifica se a pedra da casa pode virar dama.
+     * 
      * @param casa {@code Casa}
      * @return {@code boolean}
      */
@@ -146,6 +147,7 @@ public class Jogo {
 
     /**
      * Transforma a pedra da casa passada como parametro em dama
+     * 
      * @param casa - tipo {@code Casa} contendo a peça a ser ser transformada.
      */
     private void transformarPedraParaDama(Casa casa) {
@@ -157,35 +159,32 @@ public class Jogo {
     /**
      * Posiciona peças no tabuleiro.
      * Utilizado na inicialização do jogo.
+     * 
      * @param tabuleiro - tipo {@code Tabuleiro} onde as peças serão posicionadas
      */
     public void colocarPecas(Tabuleiro tabuleiro) {
 
         // CRIA E PÕE AS PEÇAS NA PARTE INFERIOR DO TABULEIRO
-        for (int x = 0; x < Tabuleiro.MAX_LINHAS; x++) {
-            for (int y = PRIMEIRA_LINHA_BRANCAS; y <= ULTIMA_LINHA_BRANCAS; y++) {
-                if((x % 2 == 0) && (y % 2 == 0)) {
-                    Casa casa = tabuleiro.getCasa(x, y);
-                    fabricaDePecas.criarPedra(casa, Cor.BRANCA);
-                }
-                
-                else if ((x % 2 != 0) && (y % 2 != 0)){
-                    Casa casa = tabuleiro.getCasa(x, y);
-                    fabricaDePecas.criarPedra(casa, Cor.BRANCA);
-                }
-            }
-
-        }
+        colocarPedras(tabuleiro, Cor.BRANCA, 0, LINHAS_INICIAIS_POR_JOGADOR - 1);
         // CRIA E POE AS PEÇAS NA PARTE SUPERIOR DO TABULEIRO
+        colocarPedras(tabuleiro, Cor.VERMELHA, Tabuleiro.MAX_COLUNAS - LINHAS_INICIAIS_POR_JOGADOR,
+                Tabuleiro.MAX_COLUNAS - 1);
+    }
+
+    /**
+     * Cria pedras da cor informada nas casas de coluna e linha com a mesma paridade,
+     * percorrendo x (externo) e y (interno).
+     * 
+     * @param tabuleiro   {@code Tabuleiro} onde as pedras serão posicionadas
+     * @param cor         cor das pedras
+     * @param linhaInicial primeira linha (y) a preencher, inclusive
+     * @param linhaFinal   última linha (y) a preencher, inclusive
+     */
+    private void colocarPedras(Tabuleiro tabuleiro, Cor cor, int linhaInicial, int linhaFinal) {
         for (int x = 0; x < Tabuleiro.MAX_LINHAS; x++) {
-            for (int y = PRIMEIRA_LINHA_VERMELHAS; y <= ULTIMA_LINHA_VERMELHAS; y++) {
-                if ((x % 2 != 0) && (y % 2 != 0)) {
-                    Casa casa = tabuleiro.getCasa(x, y);
-                    fabricaDePecas.criarPedra(casa, Cor.VERMELHA);
-                }
-                else if ((x % 2 == 0) && (y % 2 == 0)) {
-                    Casa casa = tabuleiro.getCasa(x, y);
-                    fabricaDePecas.criarPedra(casa, Cor.VERMELHA);
+            for (int y = linhaInicial; y <= linhaFinal; y++) {
+                if (x % 2 == y % 2) {
+                    fabricaDePecas.criarPedra(tabuleiro.getCasa(x, y), cor);
                 }
             }
         }
@@ -201,13 +200,15 @@ public class Jogo {
     /**
      * 
      * @return
-     * {@code Optional.empty()} - Nenhum jogador
-     * <li> {@code Optional.of(Cor.BRANCA)} - Jogador um </li>
-     * <li> {@code Optional.of(Cor.VERMELHA)} - Jogador dois </li>
+     *         {@code Optional.empty()} - Nenhum jogador
+     *         <li>{@code Optional.of(Cor.BRANCA)} - Jogador um</li>
+     *         <li>{@code Optional.of(Cor.VERMELHA)} - Jogador dois</li>
      */
     public Optional<Cor> getGanhador() {
-        if (jogadorUm.getPontos() == PONTOS_PARA_VENCER) return Optional.of(Cor.BRANCA);
-        if (jogadorDois.getPontos() == PONTOS_PARA_VENCER) return Optional.of(Cor.VERMELHA);
+        if (jogadorUm.getPontos() == PONTOS_PARA_VENCER)
+            return Optional.of(Cor.BRANCA);
+        if (jogadorDois.getPontos() == PONTOS_PARA_VENCER)
+            return Optional.of(Cor.VERMELHA);
         return Optional.empty();
     }
 
@@ -217,7 +218,7 @@ public class Jogo {
     public Tabuleiro getTabuleiro() {
         return tabuleiro;
     }
-    
+
     public void setJogadorUm(Jogador jogador) {
         jogadorUm = jogador;
     }
@@ -236,7 +237,8 @@ public class Jogo {
 
     /**
      * @param cor cor do jogador
-     * @return o jogador um para {@code Cor.BRANCA} e o jogador dois para {@code Cor.VERMELHA}
+     * @return o jogador um para {@code Cor.BRANCA} e o jogador dois para
+     *         {@code Cor.VERMELHA}
      */
     public Jogador getJogador(Cor cor) {
         return cor == Cor.BRANCA ? jogadorUm : jogadorDois;
@@ -244,8 +246,8 @@ public class Jogo {
 
     /**
      * @return
-     *      {@code Cor.BRANCA} - jogador branco
-     *  <li>{@code Cor.VERMELHA} - jogador vermelho </li>
+     *         {@code Cor.BRANCA} - jogador branco
+     *         <li>{@code Cor.VERMELHA} - jogador vermelho</li>
      */
     public Cor getVez() {
         return vezAtual;
@@ -276,7 +278,7 @@ public class Jogo {
         retorno += "Informações do(a) jogador(a) " + jogadorUm.getNome() + "\n";
         retorno += "Pontos: " + jogadorUm.getPontos() + "\n";
         retorno += "Nº de peças restantes: " + (PECAS_POR_JOGADOR - jogadorDois.getPontos()) + "\n";
-        retorno += "\n";        
+        retorno += "\n";
         retorno += "Informações do(a) jogador(a) " + jogadorDois.getNome() + "\n";
         retorno += "Pontos: " + jogadorDois.getPontos() + "\n";
         retorno += "Nº de peças restantes: " + (PECAS_POR_JOGADOR - jogadorUm.getPontos()) + "\n";

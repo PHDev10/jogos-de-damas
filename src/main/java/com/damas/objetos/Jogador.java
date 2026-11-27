@@ -2,16 +2,17 @@ package com.damas.objetos;
 
 /**
  * Jogador, recebe um nome e armazena os pontos
+ * 
  * @author João Victor da S. Cirilo {@link joao.cirilo@academico.ufpb.br}
  */
 public class Jogador {
     public static final String DEFAULT_NAME = "Anônimo";
     private static final int TAMANHO_MAXIMO_NOME = 16;
-    
+
     private String nome;
     private int pontos;
 
-    public Jogador (String nome) {
+    public Jogador(String nome) {
 
         if (validarNome(nome)) {
             this.nome = nome;
