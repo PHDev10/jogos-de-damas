@@ -25,7 +25,7 @@ public class Jogo {
     private int jogadas;
     private int jogadasSemComerPeca;
     private ArrayList<Casa> pecasAComer;
-    private Casa casaBloqueadaOrigem;
+    private EstadoDoLance estado;
     private final FabricaDePecas fabricaDePecas;
 
     public Jogo() {
@@ -42,7 +42,7 @@ public class Jogo {
         vezAtual = Cor.BRANCA;
         jogadas = 0;
         jogadasSemComerPeca = 0;
-        casaBloqueadaOrigem = null;
+        estado = new LanceLivre();
 
         colocarPecas(tabuleiro);
     }
@@ -60,11 +60,7 @@ public class Jogo {
         Casa origem = tabuleiro.getCasa(origemX, origemY);
         Casa destino = tabuleiro.getCasa(destinoX, destinoY);
 
-        if (casaBloqueadaOrigem == null) {
-            jogarLanceLivre(origem, destino);
-            return;
-        }
-        continuarCapturaObrigatoria(origem, destino);
+        estado.mover(this, origem, destino);
     }
 
     /**
@@ -74,7 +70,7 @@ public class Jogo {
      * @param origem  {@code Casa} de origem
      * @param destino {@code Casa} de destino
      */
-    private void jogarLanceLivre(Casa origem, Casa destino) {
+    void jogarLanceLivre(Casa origem, Casa destino) {
         Peca peca = origem.getPeca();
 
         if (peca.getCor() != getVez()) return;
@@ -103,7 +99,7 @@ public class Jogo {
     private void registrarCaptura(Casa destino) {
         comerPecas();
         if (destino.getPeca().podeContinuarCapturando(tabuleiro, destino)) {
-            casaBloqueadaOrigem = destino;
+            estado = new CapturaEmSequencia(destino);
         } else {
             trocarDeVez();
         }
@@ -118,19 +114,18 @@ public class Jogo {
     }
 
     /**
-     * Com casa bloqueada, só a peça dela pode jogar, e só em lance de captura.
-     * Desbloqueia e repete o lance como lance livre (sem limpar {@code pecasAComer}).
-     * 
-     * @param origem  {@code Casa} de origem
-     * @param destino {@code Casa} de destino
+     * @return {@code true} se a simulação do último movimento deixou peças a comer
      */
-    private void continuarCapturaObrigatoria(Casa origem, Casa destino) {
-        if (!origem.equals(casaBloqueadaOrigem)) return;
-        if (!simularMovimentoEValidar(origem, destino)) return;
-        if (pecasAComer.isEmpty()) return;
+    boolean haPecasACapturar() {
+        return !pecasAComer.isEmpty();
+    }
 
-        casaBloqueadaOrigem = null;
-        jogarLanceLivre(origem, destino);
+    /**
+     * Encerra a captura em sequência: volta ao estado de lance livre (sem limpar
+     * {@code pecasAComer}).
+     */
+    void voltarAoLanceLivre() {
+        estado = new LanceLivre();
     }
 
     /**
@@ -144,7 +139,7 @@ public class Jogo {
      * @param destino {@code Casa} de destino
      * @return {@code boolean} se a simulação ocorreu bem
      */
-    private boolean simularMovimentoEValidar(Casa origem, Casa destino) {
+    boolean simularMovimentoEValidar(Casa origem, Casa destino) {
         return origem.getPeca().simularMovimento(tabuleiro, origem, destino, pecasAComer);
     }
 
@@ -295,7 +290,7 @@ public class Jogo {
     }
 
     public Casa getCasaBloqueada() {
-        return casaBloqueadaOrigem;
+        return estado.casaBloqueada();
     }
 
     @Override
@@ -316,9 +311,9 @@ public class Jogo {
         retorno += "Pontos: " + jogadorDois.getPontos() + "\n";
         retorno += "Nº de peças restantes: " + (PECAS_POR_JOGADOR - jogadorUm.getPontos()) + "\n";
 
-        if (casaBloqueadaOrigem != null) {
+        if (getCasaBloqueada() != null) {
             retorno += "\n";
-            retorno += "Mova a peça na casa " + casaBloqueadaOrigem.getX() + ":" + casaBloqueadaOrigem.getY() + "!";
+            retorno += "Mova a peça na casa " + getCasaBloqueada().getX() + ":" + getCasaBloqueada().getY() + "!";
         }
 
         return retorno;
