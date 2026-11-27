@@ -1,5 +1,7 @@
 package com.damas.objetos;
 
+import java.util.Optional;
+
 /**
  * Representa uma Peça do jogo.
  * Possui uma casa e uma cor associada.
@@ -39,5 +41,59 @@ public class Pedra extends PecaBase {
     @Override
     public boolean podeSerPromovida(Casa casa) {
         return casa.getY() == getCor().linhaPromocao();
+    }
+
+    @Override
+    public boolean temCapturaNaDirecao(Tabuleiro tabuleiro, Casa origem, int deltaX, int deltaY) {
+
+        int x = origem.getX();
+        int y = origem.getY();
+
+        x += deltaX;
+        y += deltaY;
+
+        try {
+
+            Peca pecaAtual = tabuleiro.getCasa(x, y).getPeca();
+
+            if (!( pecaAtual == null)) {
+
+                if (tabuleiro.getCasa((x + deltaX), (y + deltaY)).getPeca() != null) {
+                    return false;
+                }
+
+                // VERIFICA SE A PEÇA NO CAMINHO É DA MESMA COR
+                if (getCor() == pecaAtual.getCor()) {
+                    return false;
+                }
+
+                return true;
+            }
+
+        } catch (Exception e) {
+            return false;
+        }
+
+        return false;
+    }
+
+    @Override
+    protected Optional<Boolean> regraEspecificaDoMovimento(Tabuleiro tabuleiro, Casa destino,
+            int sentidoX, int sentidoY, int distanciaX, int distanciaY) {
+
+        // REGRA DE MOVIMENTO DAS PEDRAS NO TABULEIRO CASO A DISTÂNCIA ATÉ A CASA CLICADA SEJA DE 2 BLOCOS
+        if (distanciaX == 2 && distanciaY == 2) {
+
+            Casa casaIntermediaria = tabuleiro.getCasa((destino.getX() - sentidoX), (destino.getY() - sentidoY));
+            if (casaIntermediaria.getPeca() == null) return Optional.of(false);
+            return Optional.empty();
+        }
+
+        // REGRA DE MOVIMENTO DAS PEDRAS NO TABULEIRO CASO A DISTÂNCIA ATÉ A CASA CLICADA SEJA DE 1 BLOCO
+        if ((distanciaX == 1 || distanciaY == 1) && (distanciaX == distanciaY) && sentidoY == getCor().direcaoAvanco()) {
+            return Optional.of(true);
+        } else {
+            return Optional.of(false);
+        }
     }
 }

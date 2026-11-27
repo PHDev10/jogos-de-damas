@@ -1016,4 +1016,118 @@ class JogoTest {
             assertTrue(texto.contains("Jogadas sem comer peça: 1\n"));
         }
     }
+
+    // ------------------------------------------------------------------ captura em sequência (jogada desde o início)
+
+    @Nested
+    @DisplayName("Captura em sequência obrigatória, montada jogando desde o início")
+    class CapturaEmSequenciaDesdeOInicio {
+
+        /** Lances (x = coluna, y = linha) que levam à captura em sequência pendente da vermelha em 4:2. */
+        private final int[][] lancesAteACapturaPendente = {
+            {2, 2, 3, 3}, {3, 5, 2, 4}, {3, 3, 4, 4}, {5, 5, 3, 3},
+            {4, 2, 5, 3}, {3, 3, 2, 2}, {1, 1, 3, 3}, {2, 4, 4, 2}
+        };
+
+        private final int[][] brancasRestantes = {
+            {5, 3}, {6, 2}, {3, 1}, {5, 1}, {7, 1}, {0, 0}, {2, 0}, {4, 0}, {6, 0}, {0, 2}
+        };
+
+        private Jogo jogoComCapturaPendente() {
+            Jogo jogo = new Jogo();
+            for (int[] lance : lancesAteACapturaPendente) {
+                jogo.moverPeca(lance[0], lance[1], lance[2], lance[3]);
+            }
+            return jogo;
+        }
+
+        @Test
+        void posicaoMontadaTemAsBrancasEsperadasEAVezEDaVermelha() {
+            Jogo jogo = jogoComCapturaPendente();
+
+            assertEquals(10, contarPecas(jogo, Cor.BRANCA, false));
+            assertEquals(0, contarPecas(jogo, Cor.BRANCA, true));
+            for (int[] c : brancasRestantes) {
+                Peca peca = casa(jogo, c[0], c[1]).getPeca();
+                assertNotNull(peca);
+                assertEquals(Cor.BRANCA, peca.getCor());
+            }
+            Peca capturadora = casa(jogo, 4, 2).getPeca();
+            assertNotNull(capturadora);
+            assertEquals(Cor.VERMELHA, capturadora.getCor());
+            assertEquals(11, contarPecas(jogo, Cor.VERMELHA, false));
+            assertEquals(Cor.VERMELHA, jogo.getVez());
+            assertEquals(8, jogo.getJogada());
+        }
+
+        @Test
+        void aposCapturaComNovaCapturaDisponivelACasaDoCapturadorFicaBloqueadaEAVezNaoTroca() {
+            Jogo jogo = jogoComCapturaPendente();
+
+            assertSame(casa(jogo, 4, 2), jogo.getCasaBloqueada());
+            assertEquals(Cor.VERMELHA, jogo.getVez());
+        }
+
+        @Test
+        void lancesDeOutrasPecasDasDuasCoresNaoAlteramOTabuleiro() {
+            Jogo jogo = jogoComCapturaPendente();
+
+            for (int ox = 0; ox < 8; ox++) {
+                for (int oy = 0; oy < 8; oy++) {
+                    if (ox == 4 && oy == 2) continue;
+                    for (int dx = -2; dx <= 2; dx++) {
+                        for (int dy = -2; dy <= 2; dy++) {
+                            int x = ox + dx;
+                            int y = oy + dy;
+                            if (x < 0 || x > 7 || y < 0 || y > 7) continue;
+                            assertMovimentoRejeitado(jogo, ox, oy, x, y);
+                        }
+                    }
+                }
+            }
+        }
+
+        @Test
+        void daPecaBloqueadaSoOLanceDeCapturaCorretoEAceito() {
+            Jogo jogo = jogoComCapturaPendente();
+
+            for (int dx = -2; dx <= 2; dx++) {
+                for (int dy = -2; dy <= 2; dy++) {
+                    int x = 4 + dx;
+                    int y = 2 + dy;
+                    if (x < 0 || x > 7 || y < 0 || y > 7) continue;
+                    if (x == 6 && y == 4) continue;
+                    assertMovimentoRejeitado(jogo, 4, 2, x, y);
+                }
+            }
+        }
+
+        @Test
+        void lanceDeCapturaCorretoEAceitoLimpaACasaBloqueadaETrocaAVez() {
+            Jogo jogo = jogoComCapturaPendente();
+
+            jogo.moverPeca(4, 2, 6, 4);
+
+            assertNull(jogo.getCasaBloqueada());
+            assertEquals(Cor.BRANCA, jogo.getVez());
+            assertFalse(casa(jogo, 4, 2).possuiPeca());
+            assertFalse(casa(jogo, 5, 3).possuiPeca());
+            Peca peca = casa(jogo, 6, 4).getPeca();
+            assertNotNull(peca);
+            assertEquals(Cor.VERMELHA, peca.getCor());
+            assertEquals(9, contarPecas(jogo, Cor.BRANCA, false));
+            assertEquals(9, jogo.getJogada());
+        }
+
+        @Test
+        void continuacaoDaCapturaDuplicaOsPontosComportamentoPreservado() {
+            Jogo jogo = jogoComCapturaPendente();
+            assertEquals(2, jogo.getJogadorDois().getPontos());
+
+            jogo.moverPeca(4, 2, 6, 4);
+
+            assertEquals(4, jogo.getJogadorDois().getPontos());
+            assertEquals(1, jogo.getJogadorUm().getPontos());
+        }
+    }
 }
