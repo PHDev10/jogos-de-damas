@@ -40,7 +40,7 @@ class JogoTest {
         sb.append(" pecas=");
         for (int x = 0; x < Tabuleiro.MAX_LINHAS; x++) {
             for (int y = 0; y < Tabuleiro.MAX_COLUNAS; y++) {
-                Pedra peca = jogo.getTabuleiro().getCasa(x, y).getPeca();
+                Peca peca = jogo.getTabuleiro().getCasa(x, y).getPeca();
                 if (peca != null) {
                     sb.append('(').append(x).append(',').append(y).append(')')
                       .append(peca.getCor() == Cor.BRANCA ? 'B' : 'V').append(peca instanceof Dama ? 'D' : 'P');
@@ -77,7 +77,7 @@ class JogoTest {
         void pecasBrancasComecamNasTresPrimeirasLinhasEmCasasDeSomaPar() {
             for (int x = 0; x < 8; x++) {
                 for (int y = 0; y < 3; y++) {
-                    Pedra peca = jogo.getTabuleiro().getCasa(x, y).getPeca();
+                    Peca peca = jogo.getTabuleiro().getCasa(x, y).getPeca();
                     if ((x + y) % 2 == 0) {
                         assertNotNull(peca, "esperava peça branca em " + x + "," + y);
                         assertEquals(Cor.BRANCA, peca.getCor());
@@ -93,7 +93,7 @@ class JogoTest {
         void pecasVermelhasComecamNasTresUltimasLinhasEmCasasDeSomaPar() {
             for (int x = 0; x < 8; x++) {
                 for (int y = 5; y < 8; y++) {
-                    Pedra peca = jogo.getTabuleiro().getCasa(x, y).getPeca();
+                    Peca peca = jogo.getTabuleiro().getCasa(x, y).getPeca();
                     if ((x + y) % 2 == 0) {
                         assertNotNull(peca, "esperava peça vermelha em " + x + "," + y);
                         assertEquals(Cor.VERMELHA, peca.getCor());
@@ -177,7 +177,7 @@ class JogoTest {
         @Test
         void pedraBrancaAvancaUmaCasaEAlternaAVez() {
             Jogo jogo = new Jogo();
-            Pedra peca = casa(jogo, 0, 2).getPeca();
+            Peca peca = casa(jogo, 0, 2).getPeca();
 
             jogo.moverPeca(0, 2, 1, 3);
 
@@ -194,7 +194,7 @@ class JogoTest {
         void pedraVermelhaAvancaUmaCasaNaVezDoVermelho() {
             Jogo jogo = new Jogo();
             jogo.moverPeca(0, 2, 1, 3);
-            Pedra peca = casa(jogo, 1, 5).getPeca();
+            Peca peca = casa(jogo, 1, 5).getPeca();
 
             jogo.moverPeca(1, 5, 0, 4);
 
@@ -684,7 +684,7 @@ class JogoTest {
 
             jogo.moverPeca(1, 6, 2, 7);
 
-            Pedra peca = casa(jogo, 2, 7).getPeca();
+            Peca peca = casa(jogo, 2, 7).getPeca();
             assertInstanceOf(Dama.class, peca);
             assertEquals(Cor.BRANCA, peca.getCor());
             assertTrue(peca.isDama());
@@ -700,7 +700,7 @@ class JogoTest {
 
             jogo.moverPeca(2, 1, 1, 0);
 
-            Pedra peca = casa(jogo, 1, 0).getPeca();
+            Peca peca = casa(jogo, 1, 0).getPeca();
             assertInstanceOf(Dama.class, peca);
             assertEquals(Cor.VERMELHA, peca.getCor());
             assertTrue(peca.isDama());
@@ -715,7 +715,7 @@ class JogoTest {
 
             jogo.moverPeca(1, 5, 2, 6);
 
-            Pedra peca = casa(jogo, 2, 6).getPeca();
+            Peca peca = casa(jogo, 2, 6).getPeca();
             assertFalse(peca instanceof Dama);
             assertEquals(Cor.BRANCA, peca.getCor());
             assertFalse(peca.isDama());
@@ -730,7 +730,7 @@ class JogoTest {
 
             jogo.moverPeca(1, 5, 3, 7);
 
-            Pedra peca = casa(jogo, 3, 7).getPeca();
+            Peca peca = casa(jogo, 3, 7).getPeca();
             assertInstanceOf(Dama.class, peca);
             assertEquals(Cor.BRANCA, peca.getCor());
             assertTrue(peca.isDama());

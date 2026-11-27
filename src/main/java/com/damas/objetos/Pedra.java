@@ -8,26 +8,14 @@ package com.damas.objetos;
  * @author Leonardo Villeth &lt;lvilleth@cc.ci.ufpb.br&gt;
  * @author José Alisson Rocha da Silva {@link jose.alisson2@academico.ufpb.br}
  */
-public class Pedra implements Peca {
-
-    protected Casa casa;
-    private final Cor cor;
+public class Pedra extends PecaBase {
 
     /**
      * @param casa Objeto Casa
      * @param cor Cor da pedra (BRANCA ou VERMELHA)
      */
     public Pedra(Casa casa, Cor cor) {
-        this.casa = casa;
-        this.cor = cor;
-        casa.colocarPeca(this);
-    }
-    
-    @Override
-    public void mover(Casa destino) {
-        casa.removerPeca();
-        destino.colocarPeca(this);
-        casa = destino;
+        super(casa, cor);
     }
 
     @Override
@@ -44,12 +32,12 @@ public class Pedra implements Peca {
     }
 
     @Override
-    public Cor getCor() {
-        return cor;
+    public boolean isDama() {
+        return false;
     }
 
     @Override
-    public boolean isDama() {
-        return false;
+    public boolean podeSerPromovida(Casa casa) {
+        return casa.getY() == getCor().linhaPromocao();
     }
 }

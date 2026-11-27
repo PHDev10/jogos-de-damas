@@ -56,7 +56,7 @@ public class Jogo {
     public void moverPeca(int origemX, int origemY, int destinoX, int destinoY) {
         Casa origem = tabuleiro.getCasa(origemX, origemY);
         Casa destino = tabuleiro.getCasa(destinoX, destinoY);
-        Pedra peca = origem.getPeca();
+        Peca peca = origem.getPeca();
 
         if (casaBloqueadaOrigem == null) {
             if (peca.getCor() == getVez()) {
@@ -107,7 +107,7 @@ public class Jogo {
      * @return {@code boolean} se a simulação ocorreu bem
      */
     private boolean simularMovimentoEValidar(Casa origem, Casa destino) {
-        Pedra peca = origem.getPeca();
+        Peca peca = origem.getPeca();
         int casasComPecaSeguidas = 0;
 
         if (destino.getPeca() != null) return false;
@@ -152,7 +152,7 @@ public class Jogo {
             j += sentidoY;
 
             Casa alvo = tabuleiro.getCasa(i, j);
-            Pedra pecaAlvo = alvo.getPeca();
+            Peca pecaAlvo = alvo.getPeca();
 
             if (!(pecaAlvo == null)) {
                 casasComPecaSeguidas += 1;
@@ -197,7 +197,7 @@ public class Jogo {
      */
     private boolean percorrerEVerificar(Casa origem, int deltaX, int deltaY) {
 
-        Pedra peca = origem.getPeca();
+        Peca peca = origem.getPeca();
         int x = origem.getX();
         int y = origem.getY();
         int pecasSeguidasNoCaminho = 0;
@@ -210,7 +210,7 @@ public class Jogo {
             
             try {
 
-                Pedra pecaAtual = tabuleiro.getCasa(x, y).getPeca();
+                Peca pecaAtual = tabuleiro.getCasa(x, y).getPeca();
                 
                 if (!( pecaAtual == null)) {
 
@@ -236,7 +236,7 @@ public class Jogo {
                 y += deltaY;
                 
                 try {
-                    Pedra pecaAtual = tabuleiro.getCasa(x, y).getPeca();
+                    Peca pecaAtual = tabuleiro.getCasa(x, y).getPeca();
     
                     if (!( pecaAtual == null)) {
                     
@@ -304,10 +304,9 @@ public class Jogo {
      * @return {@code boolean}
      */
     private boolean podeTransformarParaDama(Casa casa) {
-        Pedra peca = casa.getPeca();
+        Peca peca = casa.getPeca();
 
-        // SÓ PEDRAS (NÃO DAMAS) SÃO PROMOVIDAS, AO CHEGAR NA LINHA DE PROMOÇÃO DA SUA COR
-        return !peca.isDama() && casa.getY() == peca.getCor().linhaPromocao();
+        return peca.podeSerPromovida(casa);
     }
 
     /**
@@ -315,7 +314,7 @@ public class Jogo {
      * @param casa - tipo {@code Casa} contendo a peça a ser ser transformada.
      */
     private void transformarPedraParaDama(Casa casa) {
-        Pedra pedra = casa.getPeca();
+        Peca pedra = casa.getPeca();
 
         new Dama(casa, pedra.getCor());
     }

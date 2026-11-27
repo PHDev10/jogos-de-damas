@@ -45,7 +45,7 @@ final class JogoTestSupport {
         int total = 0;
         for (int x = 0; x < Tabuleiro.MAX_LINHAS; x++) {
             for (int y = 0; y < Tabuleiro.MAX_COLUNAS; y++) {
-                Pedra peca = jogo.getTabuleiro().getCasa(x, y).getPeca();
+                Peca peca = jogo.getTabuleiro().getCasa(x, y).getPeca();
                 if (peca != null && peca.getCor() == cor && peca.isDama() == dama) {
                     total++;
                 }

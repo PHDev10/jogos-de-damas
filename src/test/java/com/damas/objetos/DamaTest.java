@@ -1,6 +1,7 @@
 package com.damas.objetos;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -19,11 +20,11 @@ class DamaTest {
     }
 
     @Test
-    void damaEUmaPedraDaCorInformada() {
+    void damaEUmaPecaDaCorInformada() {
         Dama branca = new Dama(tabuleiro.getCasa(0, 0), Cor.BRANCA);
         Dama vermelha = new Dama(tabuleiro.getCasa(1, 1), Cor.VERMELHA);
 
-        assertInstanceOf(Pedra.class, branca);
+        assertInstanceOf(PecaBase.class, branca);
         assertEquals(Cor.BRANCA, branca.getCor());
         assertEquals(Cor.VERMELHA, vermelha.getCor());
         assertTrue(branca.isDama());
@@ -118,11 +119,27 @@ class DamaTest {
     }
 
     @Test
-    void damaSeIdentificaComoDamaMesmoQuandoVistaComoPedraOuPeca() {
-        Pedra comoPedra = new Dama(tabuleiro.getCasa(0, 0), Cor.BRANCA);
+    void damaSeIdentificaComoDamaMesmoQuandoVistaComoPecaBaseOuPeca() {
+        PecaBase comoPecaBase = new Dama(tabuleiro.getCasa(0, 0), Cor.BRANCA);
         Peca comoPeca = new Dama(tabuleiro.getCasa(1, 1), Cor.VERMELHA);
 
-        assertTrue(comoPedra.isDama());
+        assertTrue(comoPecaBase.isDama());
         assertTrue(comoPeca.isDama());
+    }
+
+    @ParameterizedTest(name = "dama branca nunca e promovida (linha {0})")
+    @CsvSource({"0", "1", "2", "3", "4", "5", "6", "7"})
+    void damaBrancaNaoPodeSerPromovidaEmNenhumaLinha(int linha) {
+        Dama dama = new Dama(tabuleiro.getCasa(0, 0), Cor.BRANCA);
+
+        assertFalse(dama.podeSerPromovida(tabuleiro.getCasa(3, linha)));
+    }
+
+    @ParameterizedTest(name = "dama vermelha nunca e promovida (linha {0})")
+    @CsvSource({"0", "1", "2", "3", "4", "5", "6", "7"})
+    void damaVermelhaNaoPodeSerPromovidaEmNenhumaLinha(int linha) {
+        Dama dama = new Dama(tabuleiro.getCasa(0, 0), Cor.VERMELHA);
+
+        assertFalse(dama.podeSerPromovida(tabuleiro.getCasa(3, linha)));
     }
 }
