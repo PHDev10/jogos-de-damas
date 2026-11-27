@@ -16,8 +16,6 @@ public class Jogo {
     private final int PECAS_POR_JOGADOR = 12;
     private final int PONTOS_PARA_VENCER = PECAS_POR_JOGADOR;
 
-    private final int LINHAS_INICIAIS_POR_JOGADOR = 3;
-
     private Tabuleiro tabuleiro;
     private Jogador jogadorUm;
     private Jogador jogadorDois;
@@ -191,31 +189,7 @@ public class Jogo {
      * @param tabuleiro - tipo {@code Tabuleiro} onde as peças serão posicionadas
      */
     public void colocarPecas(Tabuleiro tabuleiro) {
-
-        // CRIA E PÕE AS PEÇAS NA PARTE INFERIOR DO TABULEIRO
-        colocarPedras(tabuleiro, Cor.BRANCA, 0, LINHAS_INICIAIS_POR_JOGADOR - 1);
-        // CRIA E POE AS PEÇAS NA PARTE SUPERIOR DO TABULEIRO
-        colocarPedras(tabuleiro, Cor.VERMELHA, Tabuleiro.MAX_COLUNAS - LINHAS_INICIAIS_POR_JOGADOR,
-                Tabuleiro.MAX_COLUNAS - 1);
-    }
-
-    /**
-     * Cria pedras da cor informada nas casas de coluna e linha com a mesma paridade,
-     * percorrendo x (externo) e y (interno).
-     * 
-     * @param tabuleiro   {@code Tabuleiro} onde as pedras serão posicionadas
-     * @param cor         cor das pedras
-     * @param linhaInicial primeira linha (y) a preencher, inclusive
-     * @param linhaFinal   última linha (y) a preencher, inclusive
-     */
-    private void colocarPedras(Tabuleiro tabuleiro, Cor cor, int linhaInicial, int linhaFinal) {
-        for (int x = 0; x < Tabuleiro.MAX_LINHAS; x++) {
-            for (int y = linhaInicial; y <= linhaFinal; y++) {
-                if (x % 2 == y % 2) {
-                    fabricaDePecas.criarPedra(tabuleiro.getCasa(x, y), cor);
-                }
-            }
-        }
+        new PosicionamentoInicial(fabricaDePecas).colocarPecas(tabuleiro);
     }
 
     /**

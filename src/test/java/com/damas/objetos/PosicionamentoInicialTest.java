@@ -67,6 +67,18 @@ class PosicionamentoInicialTest {
     }
 
     @Test
+    void posicionamentoInicialUsadoDiretamenteCriaAMesmaSequenciaNumTabuleiroVazio() {
+        FabricaRegistradora fabrica = new FabricaRegistradora();
+        Tabuleiro tabuleiro = new Tabuleiro();
+
+        new PosicionamentoInicial(fabrica).colocarPecas(tabuleiro);
+
+        assertEquals(ESPERADO, fabrica.pedras);
+        assertTrue(tabuleiro.getCasa(0, 0).possuiPeca());
+        assertTrue(tabuleiro.getCasa(7, 7).possuiPeca());
+    }
+
+    @Test
     void colocarPecasPublicoRepeteAMesmaSequenciaEmOutroTabuleiro() {
         FabricaRegistradora fabrica = new FabricaRegistradora();
         Jogo jogo = new Jogo(fabrica);

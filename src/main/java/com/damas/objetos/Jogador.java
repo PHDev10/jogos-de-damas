@@ -6,8 +6,8 @@ package com.damas.objetos;
  * @author João Victor da S. Cirilo {@link joao.cirilo@academico.ufpb.br}
  */
 public class Jogador {
-    public static final String DEFAULT_NAME = "Anônimo";
-    private static final int TAMANHO_MAXIMO_NOME = 16;
+    public final String DEFAULT_NAME = "Anônimo";
+    private final int TAMANHO_MAXIMO_NOME = 16;
 
     private String nome;
     private int pontos;
