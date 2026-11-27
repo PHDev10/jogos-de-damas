@@ -47,7 +47,7 @@ public class Dama extends PecaBase {
         int y = origem.getY();
         int pecasSeguidasNoCaminho = 0;
 
-        while (!((x == -1 || x == 8) || (y == -1 || y == 8))) {
+        while (!foraDoTabuleiro(x, y)) {
             x += deltaX;
             y += deltaY;
 
@@ -78,6 +78,15 @@ public class Dama extends PecaBase {
         }
 
         return false;
+    }
+
+    /**
+     * @param x coluna
+     * @param y linha
+     * @return {@code true} se a posição está fora do tabuleiro
+     */
+    private boolean foraDoTabuleiro(int x, int y) {
+        return x < 0 || x >= Tabuleiro.MAX_LINHAS || y < 0 || y >= Tabuleiro.MAX_COLUNAS;
     }
 
     @Override
