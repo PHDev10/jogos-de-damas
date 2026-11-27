@@ -50,15 +50,14 @@ public class TabuleiroGUI extends JPanel {
         for (int x = 0; x < Tabuleiro.MAX_LINHAS; x++) {
             for (int y = 0; y < Tabuleiro.MAX_COLUNAS; y++) {
                 CasaGUI casaGUI = casas[x][y];
-                
+
                 Tabuleiro tabuleiro = jogo.getTabuleiro();
                 Casa casa = tabuleiro.getCasa(x, y);
                 if (casa.possuiPeca()) {
                     Peca peca = casa.getPeca();
 
                     casaGUI.desenharPeca(peca.getCor(), peca.isDama());
-                }
-                else {
+                } else {
                     casaGUI.apagarPeca();
                 }
             }

@@ -1,8 +1,5 @@
 package com.damas.objetos;
 
-/**
- * Fábrica padrão: cria {@code Pedra} e {@code Dama}.
- */
 public class FabricaDePecasPadrao implements FabricaDePecas {
 
     @Override

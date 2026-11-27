@@ -3,19 +3,11 @@ package com.damas.objetos;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Parte comum a todas as peças do jogo (Pedra e Dama): a casa onde a peça está
- * e a sua cor. As regras específicas de cada espécie ficam nas subclasses.
- */
 public abstract class PecaBase implements Peca {
 
     protected Casa casa;
     private final Cor cor;
 
-    /**
-     * @param casa Objeto Casa
-     * @param cor Cor da peça (BRANCA ou VERMELHA)
-     */
     protected PecaBase(Casa casa, Cor cor) {
         this.casa = casa;
         this.cor = cor;
@@ -50,7 +42,6 @@ public abstract class PecaBase implements Peca {
         sentidoX = sentidoX/distanciaX;
         sentidoY = sentidoY/distanciaY;
 
-        // REGRA ESPECÍFICA DE CADA ESPÉCIE DE PEÇA (SE JÁ DEFINE O RESULTADO, NÃO PERCORRE O CAMINHO)
         Optional<Boolean> resultadoAntecipado =
             regraEspecificaDoMovimento(tabuleiro, destino, sentidoX, sentidoY, distanciaX, distanciaY);
         if (resultadoAntecipado.isPresent()) return resultadoAntecipado.get();
@@ -58,20 +49,6 @@ public abstract class PecaBase implements Peca {
         return percorrerCaminho(tabuleiro, origem, destino, sentidoX, sentidoY, pecasAComer);
     }
 
-    /**
-     * Percorre as casas da origem até o destino, no sentido dado, e verifica:
-     * 1 - se há mais de uma peça seguida no caminho (verdadeiro retorna falso);
-     * 2 - se há uma peça no caminho e é da mesma cor (verdadeiro retorna falso).
-     * Adiciona a {@code pecasAComer} as casas das peças que podem ser comidas.
-     *
-     * @param tabuleiro   {@code Tabuleiro} em jogo
-     * @param origem      {@code Casa} de origem
-     * @param destino     {@code Casa} de destino
-     * @param sentidoX    sentido normalizado em x (-1 ou 1)
-     * @param sentidoY    sentido normalizado em y (-1 ou 1)
-     * @param pecasAComer lista que recebe (ou tem limpa) as casas das peças a serem comidas
-     * @return {@code boolean} se o caminho é válido
-     */
     private boolean percorrerCaminho(Tabuleiro tabuleiro, Casa origem, Casa destino,
             int sentidoX, int sentidoY, List<Casa> pecasAComer) {
         int casasComPecaSeguidas = 0;
@@ -121,12 +98,6 @@ public abstract class PecaBase implements Peca {
             || temCapturaNaDirecao(tabuleiro, origem, Tabuleiro.X_ESQUERDA, Tabuleiro.Y_BAIXO);
     }
 
-    /**
-     * Gancho do {@code simularMovimento}: a regra de movimento própria de cada espécie, aplicada
-     * antes de percorrer o caminho.
-     * @return {@code Optional.empty()} para seguir e percorrer o caminho; ou o resultado
-     *         final da simulação, quando a regra já o define
-     */
     protected abstract Optional<Boolean> regraEspecificaDoMovimento(Tabuleiro tabuleiro, Casa destino,
             int sentidoX, int sentidoY, int distanciaX, int distanciaY);
 }
