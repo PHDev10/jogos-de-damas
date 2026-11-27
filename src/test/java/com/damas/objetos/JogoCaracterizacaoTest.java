@@ -171,8 +171,8 @@ class JogoCaracterizacaoTest {
     private List<int[]> candidatos(Jogo jogo) {
         List<int[]> lista = new ArrayList<>();
         Casa bloqueada = jogo.getCasaBloqueada();
-        for (int x = 0; x < jogo.getTabuleiro().MAX_LINHAS; x++) {
-            for (int y = 0; y < jogo.getTabuleiro().MAX_COLUNAS; y++) {
+        for (int x = 0; x < Tabuleiro.MAX_LINHAS; x++) {
+            for (int y = 0; y < Tabuleiro.MAX_COLUNAS; y++) {
                 Casa casa = jogo.getTabuleiro().getCasa(x, y);
                 Peca peca = casa.getPeca();
                 if (peca == null) continue;
@@ -182,7 +182,7 @@ class JogoCaracterizacaoTest {
                     for (int k = 1; k <= MAX_DISTANCIA; k++) {
                         int dx = x + d[0] * k;
                         int dy = y + d[1] * k;
-                        if (dx < 0 || dx >= jogo.getTabuleiro().MAX_LINHAS || dy < 0 || dy >= jogo.getTabuleiro().MAX_COLUNAS) break;
+                        if (dx < 0 || dx >= Tabuleiro.MAX_LINHAS || dy < 0 || dy >= Tabuleiro.MAX_COLUNAS) break;
                         lista.add(new int[] {x, y, dx, dy});
                     }
                 }
@@ -193,8 +193,8 @@ class JogoCaracterizacaoTest {
 
     private int contarDamas(Jogo jogo) {
         int total = 0;
-        for (int x = 0; x < jogo.getTabuleiro().MAX_LINHAS; x++) {
-            for (int y = 0; y < jogo.getTabuleiro().MAX_COLUNAS; y++) {
+        for (int x = 0; x < Tabuleiro.MAX_LINHAS; x++) {
+            for (int y = 0; y < Tabuleiro.MAX_COLUNAS; y++) {
                 Peca peca = jogo.getTabuleiro().getCasa(x, y).getPeca();
                 if (peca != null && peca.isDama()) total++;
             }
@@ -205,8 +205,8 @@ class JogoCaracterizacaoTest {
     /** Estado completo: tabuleiro (linha 7 primeiro), vez, pontos, jogadas, jogadas sem comer, casa bloqueada. */
     private String assinatura(Jogo jogo) {
         StringBuilder sb = new StringBuilder();
-        for (int y = jogo.getTabuleiro().MAX_COLUNAS - 1; y >= 0; y--) {
-            for (int x = 0; x < jogo.getTabuleiro().MAX_LINHAS; x++) {
+        for (int y = Tabuleiro.MAX_COLUNAS - 1; y >= 0; y--) {
+            for (int x = 0; x < Tabuleiro.MAX_LINHAS; x++) {
                 Peca peca = jogo.getTabuleiro().getCasa(x, y).getPeca();
                 if (peca == null) {
                     sb.append('.');
