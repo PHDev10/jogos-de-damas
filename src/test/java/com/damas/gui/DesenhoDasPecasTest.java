@@ -92,8 +92,8 @@ class DesenhoDasPecasTest {
     @Test
     void depoisDaPromocaoACasaDaDamaUsaOIconeDeDamaDaCorCorreta() {
         Jogo jogo = new Jogo();
-        for (int x = 0; x < Tabuleiro.MAX_LINHAS; x++) {
-            for (int y = 0; y < Tabuleiro.MAX_COLUNAS; y++) {
+        for (int x = 0; x < jogo.getTabuleiro().MAX_LINHAS; x++) {
+            for (int y = 0; y < jogo.getTabuleiro().MAX_COLUNAS; y++) {
                 jogo.getTabuleiro().getCasa(x, y).removerPeca();
             }
         }

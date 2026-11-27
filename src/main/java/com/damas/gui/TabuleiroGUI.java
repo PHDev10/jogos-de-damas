@@ -18,6 +18,7 @@ public class TabuleiroGUI extends JPanel {
 
     private JanelaPrincipal janela;
     private CasaGUI[][] casas;
+    private final Tabuleiro medidas = new Tabuleiro();
 
     public TabuleiroGUI(JanelaPrincipal janela) {
         this.janela = janela;
@@ -29,11 +30,11 @@ public class TabuleiroGUI extends JPanel {
      * Preenche o tabuleiro com 64 casas
      */
     private void criarCasas() {
-        casas = new CasaGUI[Tabuleiro.MAX_LINHAS][Tabuleiro.MAX_COLUNAS];
+        casas = new CasaGUI[medidas.MAX_LINHAS][medidas.MAX_COLUNAS];
         // De cima para baixo
-        for (int y = Tabuleiro.MAX_COLUNAS - 1; y >= 0; y--) {
+        for (int y = medidas.MAX_COLUNAS - 1; y >= 0; y--) {
             // Da esquerda para a direita
-            for (int x = 0; x < Tabuleiro.MAX_LINHAS; x++) {
+            for (int x = 0; x < medidas.MAX_LINHAS; x++) {
                 Color cor = calcularCor(x, y);
                 CasaGUI casa = new CasaGUI(x, y, cor, this);
                 casas[x][y] = casa;
@@ -47,8 +48,8 @@ public class TabuleiroGUI extends JPanel {
     }
 
     public void atualizar(Jogo jogo) {
-        for (int x = 0; x < Tabuleiro.MAX_LINHAS; x++) {
-            for (int y = 0; y < Tabuleiro.MAX_COLUNAS; y++) {
+        for (int x = 0; x < medidas.MAX_LINHAS; x++) {
+            for (int y = 0; y < medidas.MAX_COLUNAS; y++) {
                 CasaGUI casaGUI = casas[x][y];
                 
                 Tabuleiro tabuleiro = jogo.getTabuleiro();
@@ -70,6 +71,6 @@ public class TabuleiroGUI extends JPanel {
     }
 
     private void initComponents() {
-        setLayout(new java.awt.GridLayout(Tabuleiro.MAX_LINHAS, Tabuleiro.MAX_COLUNAS));
+        setLayout(new java.awt.GridLayout(medidas.MAX_LINHAS, medidas.MAX_COLUNAS));
     }
 }

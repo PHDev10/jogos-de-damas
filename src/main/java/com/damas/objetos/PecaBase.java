@@ -99,10 +99,10 @@ public abstract class PecaBase implements Peca {
     @Override
     public boolean podeContinuarCapturando(Tabuleiro tabuleiro, Casa origem) {
 
-        return temCapturaNaDirecao(tabuleiro, origem, Tabuleiro.X_ESQUERDA, Tabuleiro.Y_CIMA)
-            || temCapturaNaDirecao(tabuleiro, origem, Tabuleiro.X_DIREITA, Tabuleiro.Y_CIMA)
-            || temCapturaNaDirecao(tabuleiro, origem, Tabuleiro.X_DIREITA, Tabuleiro.Y_BAIXO)
-            || temCapturaNaDirecao(tabuleiro, origem, Tabuleiro.X_ESQUERDA, Tabuleiro.Y_BAIXO);
+        return temCapturaNaDirecao(tabuleiro, origem, tabuleiro.X_ESQUERDA, tabuleiro.Y_CIMA)
+            || temCapturaNaDirecao(tabuleiro, origem, tabuleiro.X_DIREITA, tabuleiro.Y_CIMA)
+            || temCapturaNaDirecao(tabuleiro, origem, tabuleiro.X_DIREITA, tabuleiro.Y_BAIXO)
+            || temCapturaNaDirecao(tabuleiro, origem, tabuleiro.X_ESQUERDA, tabuleiro.Y_BAIXO);
     }
 
     /**

@@ -12,8 +12,8 @@ final class JogoTestSupport {
     /** Cria um jogo e remove TODAS as peças da posição inicial. */
     static Jogo jogoVazio() {
         Jogo jogo = new Jogo();
-        for (int x = 0; x < Tabuleiro.MAX_LINHAS; x++) {
-            for (int y = 0; y < Tabuleiro.MAX_COLUNAS; y++) {
+        for (int x = 0; x < jogo.getTabuleiro().MAX_LINHAS; x++) {
+            for (int y = 0; y < jogo.getTabuleiro().MAX_COLUNAS; y++) {
                 jogo.getTabuleiro().getCasa(x, y).removerPeca();
             }
         }
@@ -43,8 +43,8 @@ final class JogoTestSupport {
     /** Conta as peças de uma cor e espécie (pedra ou dama) no tabuleiro. */
     static int contarPecas(Jogo jogo, Cor cor, boolean dama) {
         int total = 0;
-        for (int x = 0; x < Tabuleiro.MAX_LINHAS; x++) {
-            for (int y = 0; y < Tabuleiro.MAX_COLUNAS; y++) {
+        for (int x = 0; x < jogo.getTabuleiro().MAX_LINHAS; x++) {
+            for (int y = 0; y < jogo.getTabuleiro().MAX_COLUNAS; y++) {
                 Peca peca = jogo.getTabuleiro().getCasa(x, y).getPeca();
                 if (peca != null && peca.getCor() == cor && peca.isDama() == dama) {
                     total++;
@@ -57,8 +57,8 @@ final class JogoTestSupport {
     /** Conta todas as peças do tabuleiro. */
     static int contarTodasAsPecas(Jogo jogo) {
         int total = 0;
-        for (int x = 0; x < Tabuleiro.MAX_LINHAS; x++) {
-            for (int y = 0; y < Tabuleiro.MAX_COLUNAS; y++) {
+        for (int x = 0; x < jogo.getTabuleiro().MAX_LINHAS; x++) {
+            for (int y = 0; y < jogo.getTabuleiro().MAX_COLUNAS; y++) {
                 if (jogo.getTabuleiro().getCasa(x, y).possuiPeca()) {
                     total++;
                 }
