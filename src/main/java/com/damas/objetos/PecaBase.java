@@ -36,7 +36,6 @@ public abstract class PecaBase implements Peca {
 
     @Override
     public boolean simularMovimento(Tabuleiro tabuleiro, Casa origem, Casa destino, List<Casa> pecasAComer) {
-        int casasComPecaSeguidas = 0;
 
         if (destino.getPeca() != null) return false;
 
@@ -56,25 +55,42 @@ public abstract class PecaBase implements Peca {
             regraEspecificaDoMovimento(tabuleiro, destino, sentidoX, sentidoY, distanciaX, distanciaY);
         if (resultadoAntecipado.isPresent()) return resultadoAntecipado.get();
 
-        //PERCORRER AS CASAS E VERIFICAR:
-        // 1 - SE HÁ MAIS DE UMA PEÇA SEGUIDA NO CAMINHO (VERDADEIRO RETORNA FALSO)
-        // 2 - SE HÁ UMA PEÇA NO CAMINHO E É DA MESMA COR (VERDADEIRO RETORNA FALSO)
+        return percorrerCaminho(tabuleiro, origem, destino, sentidoX, sentidoY, pecasAComer);
+    }
+
+    /**
+     * Percorre as casas da origem até o destino, no sentido dado, e verifica:
+     * 1 - se há mais de uma peça seguida no caminho (verdadeiro retorna falso);
+     * 2 - se há uma peça no caminho e é da mesma cor (verdadeiro retorna falso).
+     * Adiciona a {@code pecasAComer} as casas das peças que podem ser comidas.
+     *
+     * @param tabuleiro   {@code Tabuleiro} em jogo
+     * @param origem      {@code Casa} de origem
+     * @param destino     {@code Casa} de destino
+     * @param sentidoX    sentido normalizado em x (-1 ou 1)
+     * @param sentidoY    sentido normalizado em y (-1 ou 1)
+     * @param pecasAComer lista que recebe (ou tem limpa) as casas das peças a serem comidas
+     * @return {@code boolean} se o caminho é válido
+     */
+    private boolean percorrerCaminho(Tabuleiro tabuleiro, Casa origem, Casa destino,
+            int sentidoX, int sentidoY, List<Casa> pecasAComer) {
+        int casasComPecaSeguidas = 0;
         int i = origem.getX();
         int j = origem.getY();
 
-        while (!((i == destino.getX()) || (j == destino.getY()))) {
+        while (i != destino.getX() && j != destino.getY()) {
             i += sentidoX;
             j += sentidoY;
 
             Casa alvo = tabuleiro.getCasa(i, j);
             Peca pecaAlvo = alvo.getPeca();
 
-            if (!(pecaAlvo == null)) {
+            if (pecaAlvo != null) {
                 casasComPecaSeguidas += 1;
 
                 // VE SE TEM UMA PECA DO MESMO TIPO NO CAMNHO, CASO TENHA, RETORNA FALSE
                 if (getCor() == pecaAlvo.getCor()) {
-                    if (pecasAComer.size() > 0) pecasAComer.clear();
+                    pecasAComer.clear();
                     return false;
                 }
 
@@ -89,7 +105,7 @@ public abstract class PecaBase implements Peca {
             }
 
             if (casasComPecaSeguidas == 2) {
-                if (pecasAComer.size() > 0) pecasAComer.clear();
+                pecasAComer.clear();
                 return false;
             }
         }

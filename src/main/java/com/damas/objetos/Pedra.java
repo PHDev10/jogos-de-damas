@@ -30,7 +30,7 @@ public class Pedra extends PecaBase {
         if ((distanciaX == 0) || (distanciaY == 0)) return false;
 
         // REGRA DE MOVIMENTO NO CASO DA DISTÂNCIA SER DE 2 CASAS (MOVIMENTO DE COMER PEÇA)
-        return (distanciaX <= 2 || distanciaY <= 2) && (distanciaX == distanciaY);
+        return distanciaX == distanciaY && distanciaX <= 2;
     }
 
     @Override
@@ -54,27 +54,17 @@ public class Pedra extends PecaBase {
 
         try {
 
-            Peca pecaAtual = tabuleiro.getCasa(x, y).getPeca();
+            Peca vizinha = tabuleiro.getCasa(x, y).getPeca();
 
-            if (!( pecaAtual == null)) {
+            if (vizinha == null) return false;
+            if (tabuleiro.getCasa(x + deltaX, y + deltaY).getPeca() != null) return false;
 
-                if (tabuleiro.getCasa((x + deltaX), (y + deltaY)).getPeca() != null) {
-                    return false;
-                }
-
-                // VERIFICA SE A PEÇA NO CAMINHO É DA MESMA COR
-                if (getCor() == pecaAtual.getCor()) {
-                    return false;
-                }
-
-                return true;
-            }
+            // A PEÇA NO CAMINHO TEM QUE SER DE OUTRA COR
+            return getCor() != vizinha.getCor();
 
         } catch (Exception e) {
             return false;
         }
-
-        return false;
     }
 
     @Override
@@ -90,10 +80,6 @@ public class Pedra extends PecaBase {
         }
 
         // REGRA DE MOVIMENTO DAS PEDRAS NO TABULEIRO CASO A DISTÂNCIA ATÉ A CASA CLICADA SEJA DE 1 BLOCO
-        if ((distanciaX == 1 || distanciaY == 1) && (distanciaX == distanciaY) && sentidoY == getCor().direcaoAvanco()) {
-            return Optional.of(true);
-        } else {
-            return Optional.of(false);
-        }
+        return Optional.of(distanciaX == 1 && distanciaY == 1 && sentidoY == getCor().direcaoAvanco());
     }
 }
