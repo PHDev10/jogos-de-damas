@@ -57,7 +57,7 @@ class TabuleiroTest {
         Tabuleiro tabuleiro = new Tabuleiro();
         Casa casa = tabuleiro.getCasa(5, 6);
 
-        Pedra pedra = new Pedra(casa, Peca.PEDRA_VERMELHA);
+        Pedra pedra = new Pedra(casa, Cor.VERMELHA);
         assertSame(pedra, tabuleiro.getCasa(5, 6).getPeca());
 
         tabuleiro.getCasa(5, 6).removerPeca();

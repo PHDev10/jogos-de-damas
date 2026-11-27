@@ -15,25 +15,27 @@ class DamaTest {
     private final Tabuleiro tabuleiro = new Tabuleiro();
 
     private Dama damaEm44() {
-        return new Dama(tabuleiro.getCasa(4, 4), Peca.DAMA_BRANCA);
+        return new Dama(tabuleiro.getCasa(4, 4), Cor.BRANCA);
     }
 
     @Test
-    void damaEUmaPedraComTipoDeDama() {
-        Dama branca = new Dama(tabuleiro.getCasa(0, 0), Peca.DAMA_BRANCA);
-        Dama vermelha = new Dama(tabuleiro.getCasa(1, 1), Peca.DAMA_VERMELHA);
+    void damaEUmaPedraDaCorInformada() {
+        Dama branca = new Dama(tabuleiro.getCasa(0, 0), Cor.BRANCA);
+        Dama vermelha = new Dama(tabuleiro.getCasa(1, 1), Cor.VERMELHA);
 
         assertInstanceOf(Pedra.class, branca);
-        assertEquals(Peca.DAMA_BRANCA, branca.getTipo());
-        assertEquals(Peca.DAMA_VERMELHA, vermelha.getTipo());
+        assertEquals(Cor.BRANCA, branca.getCor());
+        assertEquals(Cor.VERMELHA, vermelha.getCor());
+        assertTrue(branca.isDama());
+        assertTrue(vermelha.isDama());
     }
 
     @Test
     void construtorPosicionaADamaNaCasaSubstituindoAPedra() {
         Casa casa = tabuleiro.getCasa(2, 2);
-        new Pedra(casa, Peca.PEDRA_BRANCA);
+        new Pedra(casa, Cor.BRANCA);
 
-        Dama dama = new Dama(casa, Peca.DAMA_BRANCA);
+        Dama dama = new Dama(casa, Cor.BRANCA);
 
         assertSame(dama, casa.getPeca());
     }
@@ -93,8 +95,8 @@ class DamaTest {
 
     @Test
     void damaAceitaDistanciasQuePedraRejeita() {
-        Pedra pedra = new Pedra(tabuleiro.getCasa(4, 4), Peca.PEDRA_BRANCA);
-        Dama dama = new Dama(tabuleiro.getCasa(0, 0), Peca.DAMA_BRANCA);
+        Pedra pedra = new Pedra(tabuleiro.getCasa(4, 4), Cor.BRANCA);
+        Dama dama = new Dama(tabuleiro.getCasa(0, 0), Cor.BRANCA);
         Casa distante = tabuleiro.getCasa(7, 7);
 
         assertEquals(false, pedra.isMovimentoValido(distante));
@@ -103,15 +105,24 @@ class DamaTest {
 
     @Test
     void damaBrancaTemCorBranca() {
-        Dama dama = new Dama(tabuleiro.getCasa(0, 0), Peca.DAMA_BRANCA);
+        Dama dama = new Dama(tabuleiro.getCasa(0, 0), Cor.BRANCA);
 
         assertEquals(Cor.BRANCA, dama.getCor());
     }
 
     @Test
     void damaVermelhaTemCorVermelha() {
-        Dama dama = new Dama(tabuleiro.getCasa(0, 0), Peca.DAMA_VERMELHA);
+        Dama dama = new Dama(tabuleiro.getCasa(0, 0), Cor.VERMELHA);
 
         assertEquals(Cor.VERMELHA, dama.getCor());
+    }
+
+    @Test
+    void damaSeIdentificaComoDamaMesmoQuandoVistaComoPedraOuPeca() {
+        Pedra comoPedra = new Dama(tabuleiro.getCasa(0, 0), Cor.BRANCA);
+        Peca comoPeca = new Dama(tabuleiro.getCasa(1, 1), Cor.VERMELHA);
+
+        assertTrue(comoPedra.isDama());
+        assertTrue(comoPeca.isDama());
     }
 }

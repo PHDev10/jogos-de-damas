@@ -2,7 +2,7 @@ package com.damas.objetos;
 
 /**
  * Representa uma Peça do jogo.
- * Possui uma casa e um tipo associado.
+ * Possui uma casa e uma cor associada.
  * 
  * @author Alan Moraes &lt;alan@ci.ufpb.br&gt;
  * @author Leonardo Villeth &lt;lvilleth@cc.ci.ufpb.br&gt;
@@ -11,15 +11,15 @@ package com.damas.objetos;
 public class Pedra implements Peca {
 
     protected Casa casa;
-    protected int tipo;
+    private final Cor cor;
 
     /**
      * @param casa Objeto Casa
-     * @param tipo int tipo de peça (0 = Pedra Branca, 2 = Pedra vermelha) 
+     * @param cor Cor da pedra (BRANCA ou VERMELHA)
      */
-    public Pedra(Casa casa, int tipo) {
+    public Pedra(Casa casa, Cor cor) {
         this.casa = casa;
-        this.tipo = tipo;
+        this.cor = cor;
         casa.colocarPeca(this);
     }
     
@@ -44,12 +44,12 @@ public class Pedra implements Peca {
     }
 
     @Override
-    public int getTipo() {
-        return tipo;
+    public Cor getCor() {
+        return cor;
     }
 
     @Override
-    public Cor getCor() {
-        return (tipo == PEDRA_BRANCA || tipo == DAMA_BRANCA) ? Cor.BRANCA : Cor.VERMELHA;
+    public boolean isDama() {
+        return false;
     }
 }
