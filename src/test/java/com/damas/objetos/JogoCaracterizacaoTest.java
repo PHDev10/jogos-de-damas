@@ -103,7 +103,7 @@ class JogoCaracterizacaoTest {
             assertNotNull(in, "golden master ausente; grave com -Dgolden.gravar=true");
             String texto = new String(in.readAllBytes(), StandardCharsets.UTF_8);
             List<String> linhas = new ArrayList<>();
-            for (String linha : texto.split("\n")) {
+            for (String linha : texto.split("\\R")) {
                 if (!linha.isEmpty()) linhas.add(linha);
             }
             return linhas;

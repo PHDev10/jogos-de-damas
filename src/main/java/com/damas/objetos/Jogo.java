@@ -59,45 +59,78 @@ public class Jogo {
     public void moverPeca(int origemX, int origemY, int destinoX, int destinoY) {
         Casa origem = tabuleiro.getCasa(origemX, origemY);
         Casa destino = tabuleiro.getCasa(destinoX, destinoY);
-        Peca peca = origem.getPeca();
 
         if (casaBloqueadaOrigem == null) {
-            if (peca.getCor() == getVez()) {
-
-                if (peca.isMovimentoValido(destino)) {
-
-                    if (simularMovimentoEValidar(origem, destino)) {
-
-                        peca.mover(destino);
-
-                        if (pecasAComer.size() > 0) {
-                            comerPecas();
-                            if (destino.getPeca().podeContinuarCapturando(tabuleiro, destino)) {
-                                casaBloqueadaOrigem = destino;
-                            } else {
-                                trocarDeVez();
-                            }
-                        } else {
-                            jogadasSemComerPeca++;
-                            trocarDeVez();
-                        }
-
-                        jogadas++;
-                        if (podeTransformarParaDama(destino))
-                            transformarPedraParaDama(destino);
-                    }
-                }
-            }
-        } else {
-            if ((origem.equals(casaBloqueadaOrigem))) {
-                if (simularMovimentoEValidar(origem, destino)) {
-                    if (pecasAComer.size() != 0) {
-                        casaBloqueadaOrigem = null;
-                        moverPeca(origemX, origemY, destinoX, destinoY);
-                    }
-                }
-            }
+            jogarLanceLivre(origem, destino);
+            return;
         }
+        continuarCapturaObrigatoria(origem, destino);
+    }
+
+    /**
+     * Lance normal (sem captura obrigatória pendente): valida, move a peça, registra
+     * captura ou lance simples, conta a jogada e promove a pedra se for o caso.
+     * 
+     * @param origem  {@code Casa} de origem
+     * @param destino {@code Casa} de destino
+     */
+    private void jogarLanceLivre(Casa origem, Casa destino) {
+        Peca peca = origem.getPeca();
+
+        if (peca.getCor() != getVez()) return;
+        if (!peca.isMovimentoValido(destino)) return;
+        if (!simularMovimentoEValidar(origem, destino)) return;
+
+        peca.mover(destino);
+
+        if (!pecasAComer.isEmpty()) {
+            registrarCaptura(destino);
+        } else {
+            registrarLanceSemCaptura();
+        }
+
+        jogadas++;
+        if (podeTransformarParaDama(destino))
+            transformarPedraParaDama(destino);
+    }
+
+    /**
+     * Come as peças capturadas e decide se o mesmo jogador continua (casa bloqueada)
+     * ou se a vez troca. A peça em {@code destino} ainda é a pedra (a promoção vem depois).
+     * 
+     * @param destino {@code Casa} onde a peça terminou o lance
+     */
+    private void registrarCaptura(Casa destino) {
+        comerPecas();
+        if (destino.getPeca().podeContinuarCapturando(tabuleiro, destino)) {
+            casaBloqueadaOrigem = destino;
+        } else {
+            trocarDeVez();
+        }
+    }
+
+    /**
+     * Lance sem captura: conta a jogada sem comer peça e troca a vez.
+     */
+    private void registrarLanceSemCaptura() {
+        jogadasSemComerPeca++;
+        trocarDeVez();
+    }
+
+    /**
+     * Com casa bloqueada, só a peça dela pode jogar, e só em lance de captura.
+     * Desbloqueia e repete o lance como lance livre (sem limpar {@code pecasAComer}).
+     * 
+     * @param origem  {@code Casa} de origem
+     * @param destino {@code Casa} de destino
+     */
+    private void continuarCapturaObrigatoria(Casa origem, Casa destino) {
+        if (!origem.equals(casaBloqueadaOrigem)) return;
+        if (!simularMovimentoEValidar(origem, destino)) return;
+        if (pecasAComer.isEmpty()) return;
+
+        casaBloqueadaOrigem = null;
+        jogarLanceLivre(origem, destino);
     }
 
     /**
