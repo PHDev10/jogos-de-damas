@@ -20,23 +20,20 @@ import javax.swing.JButton;
  */
 public class CasaGUI extends JButton {
 
-    // Constantes 
     public static final Color COR_CLARA = new Color(255, 255, 250);
     public static final Color COR_ESCURA = new Color(87, 168, 124);
     private static final Color COR_DESTAQUE = new Color(0, 1, 0, 0.4f);
 
-    // Icones das pecas
-    private static final URL PEDRA_BRANCA_URL = CasaGUI.class.getResource("/resources/pedra_branca.png"); 
-    private static final URL DAMA_BRANCA_URL = CasaGUI.class.getResource("/resources/dama_branca.png"); 
-    private static final URL PEDRA_VERMELHA_URL = CasaGUI.class.getResource("/resources/pedra_vermelha.png"); 
-    private static final URL DAMA_VERMELHA_URL = CasaGUI.class.getResource("/resources/dama_vermelha.png"); 
+    private static final URL PEDRA_BRANCA_URL = CasaGUI.class.getResource("/resources/pedra_branca.png");
+    private static final URL DAMA_BRANCA_URL = CasaGUI.class.getResource("/resources/dama_branca.png");
+    private static final URL PEDRA_VERMELHA_URL = CasaGUI.class.getResource("/resources/pedra_vermelha.png");
+    private static final URL DAMA_VERMELHA_URL = CasaGUI.class.getResource("/resources/dama_vermelha.png");
 
     private static final Icon PEDRA_BRANCA = new ImageIcon(PEDRA_BRANCA_URL);
     private static final Icon DAMA_BRANCA = new ImageIcon(DAMA_BRANCA_URL);
     private static final Icon PEDRA_VERMELHA = new ImageIcon(PEDRA_VERMELHA_URL);
     private static final Icon DAMA_VERMELHA = new ImageIcon(DAMA_VERMELHA_URL);
 
-    // Tabela de ícones: [cor.ordinal()][dama ? 1 : 0]
     private static final Icon[][] ICONES = new Icon[Cor.values().length][2];
     static {
         ICONES[Cor.BRANCA.ordinal()][0] = PEDRA_BRANCA;
@@ -83,7 +80,7 @@ public class CasaGUI extends JButton {
     public boolean possuiPeca() {
         return getIcon() != null;
     }
-    
+
     public void destacar() {
         setBackground(COR_DESTAQUE);
     }

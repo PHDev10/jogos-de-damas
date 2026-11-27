@@ -3,15 +3,13 @@ package com.damas.objetos;
 import java.util.Optional;
 
 /**
- * Dama do jogo.
- * <p>Recebe uma casa e uma cor associada</p>
  * @author João Victor da S. Cirilo {@link joao.cirilo@academico.ufpb.br}
  */
 public class Dama extends PecaBase {
 
     /**
      * @param casa Objeto Casa
-     * @param cor Cor da dama (BRANCA ou VERMELHA)
+     * @param cor  Cor da dama (BRANCA ou VERMELHA)
      */
     public Dama(Casa casa, Cor cor) {
         super(casa, cor);
@@ -29,10 +27,11 @@ public class Dama extends PecaBase {
 
     /**
      * Movimento da Dama que pode andar várias casas na diagonal
+     * 
      * @param destino
-     * @return boolean. True se puder ser movida e false se não 
+     * @return boolean. True se puder ser movida e false se não
      */
-   @Override
+    @Override
     public boolean isMovimentoValido(Casa destino) {
         int distanciaX = Math.abs((destino.getX() - casa.getX()));
         int distanciaY = Math.abs((destino.getY() - casa.getY()));
@@ -54,7 +53,7 @@ public class Dama extends PecaBase {
             try {
                 Peca pecaAtual = tabuleiro.getCasa(x, y).getPeca();
 
-                if (!( pecaAtual == null)) {
+                if (!(pecaAtual == null)) {
 
                     pecasSeguidasNoCaminho += 1;
 
@@ -80,11 +79,6 @@ public class Dama extends PecaBase {
         return false;
     }
 
-    /**
-     * @param x coluna
-     * @param y linha
-     * @return {@code true} se a posição está fora do tabuleiro
-     */
     private boolean foraDoTabuleiro(int x, int y) {
         return x < 0 || x >= Tabuleiro.MAX_LINHAS || y < 0 || y >= Tabuleiro.MAX_COLUNAS;
     }

@@ -18,7 +18,7 @@ public class Casa {
         this.y = y;
         this.peca = null;
     }
-    
+
     /**
      * @param peca a Peça a ser posicionada nesta Casa.
      */
@@ -32,14 +32,14 @@ public class Casa {
     public void removerPeca() {
         peca = null;
     }
-    
+
     /**
      * @return a Peca posicionada nesta Casa, ou Null se a casa estiver livre.
      */
     public Peca getPeca() {
         return peca;
     }
-    
+
     /**
      * @return true se existe uma peça nesta casa, caso contrario false.
      */

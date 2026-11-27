@@ -59,7 +59,6 @@ public class Pedra extends PecaBase {
             if (vizinha == null) return false;
             if (tabuleiro.getCasa(x + deltaX, y + deltaY).getPeca() != null) return false;
 
-            // A PEÇA NO CAMINHO TEM QUE SER DE OUTRA COR
             return getCor() != vizinha.getCor();
 
         } catch (Exception e) {

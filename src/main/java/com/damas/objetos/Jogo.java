@@ -41,7 +41,6 @@ public class Jogo {
     }
 
     /**
-     * Realiza uma serie de passos para comandar uma peça na posição
      * (origemX, origemY) fazer um movimento para (destinoX, destinoY).
      * 
      * @param origemX  - {@code int} linha da Casa de origem.
@@ -56,19 +55,15 @@ public class Jogo {
         estado.mover(this, origem, destino);
     }
 
-    /**
-     * Lance normal (sem captura obrigatória pendente): valida, move a peça, registra
-     * captura ou lance simples, conta a jogada e promove a pedra se for o caso.
-     * 
-     * @param origem  {@code Casa} de origem
-     * @param destino {@code Casa} de destino
-     */
     void jogarLanceLivre(Casa origem, Casa destino) {
         Peca peca = origem.getPeca();
 
-        if (peca.getCor() != getVez()) return;
-        if (!peca.isMovimentoValido(destino)) return;
-        if (!simularMovimentoEValidar(origem, destino)) return;
+        if (peca.getCor() != getVez())
+            return;
+        if (!peca.isMovimentoValido(destino))
+            return;
+        if (!simularMovimentoEValidar(origem, destino))
+            return;
 
         peca.mover(destino);
 
@@ -83,12 +78,6 @@ public class Jogo {
             transformarPedraParaDama(destino);
     }
 
-    /**
-     * Come as peças capturadas e decide se o mesmo jogador continua (casa bloqueada)
-     * ou se a vez troca. A peça em {@code destino} ainda é a pedra (a promoção vem depois).
-     * 
-     * @param destino {@code Casa} onde a peça terminou o lance
-     */
     private void registrarCaptura(Casa destino) {
         comerPecas();
         if (destino.getPeca().podeContinuarCapturando(tabuleiro, destino)) {
@@ -98,36 +87,21 @@ public class Jogo {
         }
     }
 
-    /**
-     * Lance sem captura: conta a jogada sem comer peça e troca a vez.
-     */
     private void registrarLanceSemCaptura() {
         jogadasSemComerPeca++;
         trocarDeVez();
     }
 
-    /**
-     * @return {@code true} se a simulação do último movimento deixou peças a comer
-     */
+
     boolean haPecasACapturar() {
         return !pecasAComer.isEmpty();
     }
 
-    /**
-     * Encerra a captura em sequência: volta ao estado de lance livre (sem limpar
-     * {@code pecasAComer}).
-     */
     void voltarAoLanceLivre() {
         estado = new LanceLivre();
     }
 
     /**
-     * <p>
-     * Percorre as casas da casa de origem clicada até a casa de destino clicada,
-     * verifica se o caminho é valido e adiciona casas a variável
-     * {@code pecasAComer}
-     * </p>
-     * 
      * @param origem  {@code Casa} de origem
      * @param destino {@code Casa} de destino
      * @return {@code boolean} se a simulação ocorreu bem
@@ -136,10 +110,6 @@ public class Jogo {
         return origem.getPeca().simularMovimento(tabuleiro, origem, destino, pecasAComer);
     }
 
-    /**
-     * Limpa as peças na variável {@code ArrayList pecasAComer}, adiciona pontos ao
-     * jogador
-     */
     private void comerPecas() {
         int pecasComidas = pecasAComer.size();
 
@@ -154,23 +124,12 @@ public class Jogo {
         jogadasSemComerPeca = 0;
     }
 
-    /**
-     * Verifica se a pedra da casa pode virar dama.
-     * 
-     * @param casa {@code Casa}
-     * @return {@code boolean}
-     */
     private boolean podeTransformarParaDama(Casa casa) {
         Peca peca = casa.getPeca();
 
         return peca.podeSerPromovida(casa);
     }
 
-    /**
-     * Transforma a pedra da casa passada como parametro em dama
-     * 
-     * @param casa - tipo {@code Casa} contendo a peça a ser ser transformada.
-     */
     private void transformarPedraParaDama(Casa casa) {
         Peca pedra = casa.getPeca();
 
@@ -180,7 +139,6 @@ public class Jogo {
     /**
      * Posiciona peças no tabuleiro.
      * Utilizado na inicialização do jogo.
-     * 
      * @param tabuleiro - tipo {@code Tabuleiro} onde as peças serão posicionadas
      */
     public void colocarPecas(Tabuleiro tabuleiro) {
@@ -229,19 +187,12 @@ public class Jogo {
     }
 
     /**
-     * @param cor cor do jogador
      * @return o jogador um para {@code Cor.BRANCA} e o jogador dois para
-     *         {@code Cor.VERMELHA}
      */
     public Jogador getJogador(Cor cor) {
         return placar.getJogador(cor);
     }
 
-    /**
-     * @return
-     *         {@code Cor.BRANCA} - jogador branco
-     *         <li>{@code Cor.VERMELHA} - jogador vermelho</li>
-     */
     public Cor getVez() {
         return vezAtual;
     }
