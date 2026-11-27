@@ -29,8 +29,14 @@ public class Jogo {
     private int jogadasSemComerPeca = 0;
     private ArrayList<Casa> pecasAComer;
     private Casa casaBloqueadaOrigem;
+    private final FabricaDePecas fabricaDePecas;
 
     public Jogo() {
+        this(new FabricaDePecasPadrao());
+    }
+
+    public Jogo(FabricaDePecas fabricaDePecas) {
+        this.fabricaDePecas = fabricaDePecas;
         tabuleiro = new Tabuleiro();
         pecasAComer = new ArrayList<Casa>();
         jogadorUm = new Jogador("player branco");
@@ -145,7 +151,7 @@ public class Jogo {
     private void transformarPedraParaDama(Casa casa) {
         Peca pedra = casa.getPeca();
 
-        new Dama(casa, pedra.getCor());
+        fabricaDePecas.criarDama(casa, pedra.getCor());
     }
 
     /**
@@ -160,12 +166,12 @@ public class Jogo {
             for (int y = PRIMEIRA_LINHA_BRANCAS; y <= ULTIMA_LINHA_BRANCAS; y++) {
                 if((x % 2 == 0) && (y % 2 == 0)) {
                     Casa casa = tabuleiro.getCasa(x, y);
-                    new Pedra(casa, Cor.BRANCA);
+                    fabricaDePecas.criarPedra(casa, Cor.BRANCA);
                 }
                 
                 else if ((x % 2 != 0) && (y % 2 != 0)){
                     Casa casa = tabuleiro.getCasa(x, y);
-                    new Pedra(casa, Cor.BRANCA);
+                    fabricaDePecas.criarPedra(casa, Cor.BRANCA);
                 }
             }
 
@@ -175,11 +181,11 @@ public class Jogo {
             for (int y = PRIMEIRA_LINHA_VERMELHAS; y <= ULTIMA_LINHA_VERMELHAS; y++) {
                 if ((x % 2 != 0) && (y % 2 != 0)) {
                     Casa casa = tabuleiro.getCasa(x, y);
-                    new Pedra(casa, Cor.VERMELHA);
+                    fabricaDePecas.criarPedra(casa, Cor.VERMELHA);
                 }
                 else if ((x % 2 == 0) && (y % 2 == 0)) {
                     Casa casa = tabuleiro.getCasa(x, y);
-                    new Pedra(casa, Cor.VERMELHA);
+                    fabricaDePecas.criarPedra(casa, Cor.VERMELHA);
                 }
             }
         }

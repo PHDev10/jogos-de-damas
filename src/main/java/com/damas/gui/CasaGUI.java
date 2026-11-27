@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.net.URL;
 
+import com.damas.objetos.Cor;
+
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -34,6 +36,15 @@ public class CasaGUI extends JButton {
     private static final Icon PEDRA_VERMELHA = new ImageIcon(PEDRA_VERMELHA_URL);
     private static final Icon DAMA_VERMELHA = new ImageIcon(DAMA_VERMELHA_URL);
 
+    // Tabela de ícones: [cor.ordinal()][dama ? 1 : 0]
+    private static final Icon[][] ICONES = new Icon[Cor.values().length][2];
+    static {
+        ICONES[Cor.BRANCA.ordinal()][0] = PEDRA_BRANCA;
+        ICONES[Cor.BRANCA.ordinal()][1] = DAMA_BRANCA;
+        ICONES[Cor.VERMELHA.ordinal()][0] = PEDRA_VERMELHA;
+        ICONES[Cor.VERMELHA.ordinal()][1] = DAMA_VERMELHA;
+    }
+
     private int x;
     private int y;
     private Color cor;
@@ -61,20 +72,8 @@ public class CasaGUI extends JButton {
         return this.y;
     }
 
-    public void desenharPedraBranca() {
-        setIcon(PEDRA_BRANCA);
-    }
-
-    public void desenharPedraVermelha() {
-        setIcon(PEDRA_VERMELHA);
-    }
-
-    public void desenharDamaBranca() {
-        setIcon(DAMA_BRANCA);
-    }
-
-    public void desenharDamaVermelha() {
-        setIcon(DAMA_VERMELHA);
+    public void desenharPeca(Cor cor, boolean dama) {
+        setIcon(ICONES[cor.ordinal()][dama ? 1 : 0]);
     }
 
     public void apagarPeca() {
