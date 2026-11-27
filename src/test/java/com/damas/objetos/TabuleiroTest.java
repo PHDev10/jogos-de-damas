@@ -12,12 +12,12 @@ class TabuleiroTest {
 
     @Test
     void constantesDoTabuleiro() {
-        assertEquals(8, Tabuleiro.MAX_LINHAS);
-        assertEquals(8, Tabuleiro.MAX_COLUNAS);
-        assertEquals(-1, Tabuleiro.X_ESQUERDA);
-        assertEquals(1, Tabuleiro.X_DIREITA);
-        assertEquals(-1, Tabuleiro.Y_BAIXO);
-        assertEquals(1, Tabuleiro.Y_CIMA);
+        assertEquals(8, new Tabuleiro().MAX_LINHAS);
+        assertEquals(8, new Tabuleiro().MAX_COLUNAS);
+        assertEquals(-1, new Tabuleiro().X_ESQUERDA);
+        assertEquals(1, new Tabuleiro().X_DIREITA);
+        assertEquals(-1, new Tabuleiro().Y_BAIXO);
+        assertEquals(1, new Tabuleiro().Y_CIMA);
     }
 
     @Test

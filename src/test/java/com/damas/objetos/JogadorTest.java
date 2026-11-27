@@ -9,7 +9,7 @@ class JogadorTest {
 
     @Test
     void nomeDefaultEAnonimo() {
-        assertEquals("Anônimo", Jogador.DEFAULT_NAME);
+        assertEquals("Anônimo", new Jogador("x").DEFAULT_NAME);
     }
 
     @Test

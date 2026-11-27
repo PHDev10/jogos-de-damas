@@ -13,12 +13,8 @@ import java.util.Optional;
  */
 public class Jogo {
 
-    private final int PECAS_POR_JOGADOR = 12;
-    private final int PONTOS_PARA_VENCER = PECAS_POR_JOGADOR;
-
     private Tabuleiro tabuleiro;
-    private Jogador jogadorUm;
-    private Jogador jogadorDois;
+    private final Placar placar;
     private Cor vezAtual;
     private int jogadas;
     private int jogadasSemComerPeca;
@@ -34,8 +30,7 @@ public class Jogo {
         this.fabricaDePecas = fabricaDePecas;
         tabuleiro = new Tabuleiro();
         pecasAComer = new ArrayList<Casa>();
-        jogadorUm = new Jogador("player branco");
-        jogadorDois = new Jogador("player vermelho");
+        placar = new Placar(new Jogador("player branco"), new Jogador("player vermelho"));
 
         vezAtual = Cor.BRANCA;
         jogadas = 0;
@@ -207,11 +202,7 @@ public class Jogo {
      *         <li>{@code Optional.of(Cor.VERMELHA)} - Jogador dois</li>
      */
     public Optional<Cor> getGanhador() {
-        if (jogadorUm.getPontos() == PONTOS_PARA_VENCER)
-            return Optional.of(Cor.BRANCA);
-        if (jogadorDois.getPontos() == PONTOS_PARA_VENCER)
-            return Optional.of(Cor.VERMELHA);
-        return Optional.empty();
+        return placar.getGanhador();
     }
 
     /**
@@ -222,19 +213,19 @@ public class Jogo {
     }
 
     public void setJogadorUm(Jogador jogador) {
-        jogadorUm = jogador;
+        placar.setJogadorUm(jogador);
     }
 
     public void setJogadorDois(Jogador jogador) {
-        jogadorDois = jogador;
+        placar.setJogadorDois(jogador);
     }
 
     public Jogador getJogadorUm() {
-        return jogadorUm;
+        return placar.getJogadorUm();
     }
 
     public Jogador getJogadorDois() {
-        return jogadorDois;
+        return placar.getJogadorDois();
     }
 
     /**
@@ -243,7 +234,7 @@ public class Jogo {
      *         {@code Cor.VERMELHA}
      */
     public Jogador getJogador(Cor cor) {
-        return cor == Cor.BRANCA ? jogadorUm : jogadorDois;
+        return placar.getJogador(cor);
     }
 
     /**
@@ -277,13 +268,13 @@ public class Jogo {
         retorno += "Nº de jogadas: " + getJogada() + "\n";
         retorno += "Jogadas sem comer peça: " + getJogadasSemComerPecas() + "\n";
         retorno += "\n";
-        retorno += "Informações do(a) jogador(a) " + jogadorUm.getNome() + "\n";
-        retorno += "Pontos: " + jogadorUm.getPontos() + "\n";
-        retorno += "Nº de peças restantes: " + (PECAS_POR_JOGADOR - jogadorDois.getPontos()) + "\n";
+        retorno += "Informações do(a) jogador(a) " + getJogadorUm().getNome() + "\n";
+        retorno += "Pontos: " + getJogadorUm().getPontos() + "\n";
+        retorno += "Nº de peças restantes: " + placar.pecasRestantes(Cor.BRANCA) + "\n";
         retorno += "\n";
-        retorno += "Informações do(a) jogador(a) " + jogadorDois.getNome() + "\n";
-        retorno += "Pontos: " + jogadorDois.getPontos() + "\n";
-        retorno += "Nº de peças restantes: " + (PECAS_POR_JOGADOR - jogadorUm.getPontos()) + "\n";
+        retorno += "Informações do(a) jogador(a) " + getJogadorDois().getNome() + "\n";
+        retorno += "Pontos: " + getJogadorDois().getPontos() + "\n";
+        retorno += "Nº de peças restantes: " + placar.pecasRestantes(Cor.VERMELHA) + "\n";
 
         if (getCasaBloqueada() != null) {
             retorno += "\n";

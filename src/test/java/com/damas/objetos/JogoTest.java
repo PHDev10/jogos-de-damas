@@ -38,8 +38,8 @@ class JogoTest {
         Casa bloqueada = jogo.getCasaBloqueada();
         sb.append(" bloqueada=").append(bloqueada == null ? "null" : bloqueada.getX() + ":" + bloqueada.getY());
         sb.append(" pecas=");
-        for (int x = 0; x < Tabuleiro.MAX_LINHAS; x++) {
-            for (int y = 0; y < Tabuleiro.MAX_COLUNAS; y++) {
+        for (int x = 0; x < jogo.getTabuleiro().MAX_LINHAS; x++) {
+            for (int y = 0; y < jogo.getTabuleiro().MAX_COLUNAS; y++) {
                 Peca peca = jogo.getTabuleiro().getCasa(x, y).getPeca();
                 if (peca != null) {
                     sb.append('(').append(x).append(',').append(y).append(')')

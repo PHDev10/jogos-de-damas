@@ -194,7 +194,7 @@ class RegrasDeCapturaDasPecasTest {
             Peca peca = criar(dama, 3, 3, Cor.BRANCA);
             criar(false, 4, 4, Cor.VERMELHA);
 
-            assertTrue(temCaptura(peca, 3, 3, Tabuleiro.X_DIREITA, Tabuleiro.Y_CIMA));
+            assertTrue(temCaptura(peca, 3, 3, tabuleiro.X_DIREITA, tabuleiro.Y_CIMA));
         }
 
         @ParameterizedTest(name = "dama={0}: inimiga adjacente com casa de trás ocupada")
@@ -204,7 +204,7 @@ class RegrasDeCapturaDasPecasTest {
             criar(false, 4, 4, Cor.VERMELHA);
             criar(false, 5, 5, Cor.VERMELHA);
 
-            assertFalse(temCaptura(peca, 3, 3, Tabuleiro.X_DIREITA, Tabuleiro.Y_CIMA));
+            assertFalse(temCaptura(peca, 3, 3, tabuleiro.X_DIREITA, tabuleiro.Y_CIMA));
         }
 
         @ParameterizedTest(name = "dama={0}: peça da mesma cor adjacente")
@@ -213,7 +213,7 @@ class RegrasDeCapturaDasPecasTest {
             Peca peca = criar(dama, 3, 3, Cor.BRANCA);
             criar(false, 4, 4, Cor.BRANCA);
 
-            assertFalse(temCaptura(peca, 3, 3, Tabuleiro.X_DIREITA, Tabuleiro.Y_CIMA));
+            assertFalse(temCaptura(peca, 3, 3, tabuleiro.X_DIREITA, tabuleiro.Y_CIMA));
         }
 
         @ParameterizedTest(name = "dama={0}: borda do tabuleiro")
@@ -222,8 +222,8 @@ class RegrasDeCapturaDasPecasTest {
             Peca noCanto = criar(dama, 7, 7, Cor.BRANCA);
             Peca noCantoOposto = criar(dama, 0, 0, Cor.VERMELHA);
 
-            assertFalse(temCaptura(noCanto, 7, 7, Tabuleiro.X_DIREITA, Tabuleiro.Y_CIMA));
-            assertFalse(temCaptura(noCantoOposto, 0, 0, Tabuleiro.X_ESQUERDA, Tabuleiro.Y_BAIXO));
+            assertFalse(temCaptura(noCanto, 7, 7, tabuleiro.X_DIREITA, tabuleiro.Y_CIMA));
+            assertFalse(temCaptura(noCantoOposto, 0, 0, tabuleiro.X_ESQUERDA, tabuleiro.Y_BAIXO));
         }
 
         @ParameterizedTest(name = "dama={0}: inimiga encostada na borda")
@@ -233,7 +233,7 @@ class RegrasDeCapturaDasPecasTest {
             criar(false, 6, 6, Cor.VERMELHA);
             criar(false, 7, 7, Cor.VERMELHA);
 
-            assertFalse(temCaptura(peca, 5, 5, Tabuleiro.X_DIREITA, Tabuleiro.Y_CIMA));
+            assertFalse(temCaptura(peca, 5, 5, tabuleiro.X_DIREITA, tabuleiro.Y_CIMA));
         }
 
         @Test
@@ -241,7 +241,7 @@ class RegrasDeCapturaDasPecasTest {
             Peca dama = criar(true, 1, 1, Cor.BRANCA);
             criar(false, 4, 4, Cor.VERMELHA);
 
-            assertTrue(temCaptura(dama, 1, 1, Tabuleiro.X_DIREITA, Tabuleiro.Y_CIMA));
+            assertTrue(temCaptura(dama, 1, 1, tabuleiro.X_DIREITA, tabuleiro.Y_CIMA));
         }
 
         @Test
@@ -250,7 +250,7 @@ class RegrasDeCapturaDasPecasTest {
             criar(false, 4, 4, Cor.VERMELHA);
             criar(false, 5, 5, Cor.VERMELHA);
 
-            assertFalse(temCaptura(dama, 1, 1, Tabuleiro.X_DIREITA, Tabuleiro.Y_CIMA));
+            assertFalse(temCaptura(dama, 1, 1, tabuleiro.X_DIREITA, tabuleiro.Y_CIMA));
         }
 
         @Test
@@ -259,7 +259,7 @@ class RegrasDeCapturaDasPecasTest {
             criar(false, 2, 2, Cor.BRANCA);
             criar(false, 4, 4, Cor.VERMELHA);
 
-            assertFalse(temCaptura(dama, 1, 1, Tabuleiro.X_DIREITA, Tabuleiro.Y_CIMA));
+            assertFalse(temCaptura(dama, 1, 1, tabuleiro.X_DIREITA, tabuleiro.Y_CIMA));
         }
 
         @Test
@@ -267,7 +267,7 @@ class RegrasDeCapturaDasPecasTest {
             Peca pedra = criar(false, 1, 1, Cor.BRANCA);
             criar(false, 4, 4, Cor.VERMELHA);
 
-            assertFalse(temCaptura(pedra, 1, 1, Tabuleiro.X_DIREITA, Tabuleiro.Y_CIMA));
+            assertFalse(temCaptura(pedra, 1, 1, tabuleiro.X_DIREITA, tabuleiro.Y_CIMA));
         }
 
         @ParameterizedTest(name = "dama={0}: direção sem peças")
@@ -275,7 +275,7 @@ class RegrasDeCapturaDasPecasTest {
         void direcaoSemPecasNaoTemCaptura(boolean dama) {
             Peca peca = criar(dama, 3, 3, Cor.BRANCA);
 
-            assertFalse(temCaptura(peca, 3, 3, Tabuleiro.X_ESQUERDA, Tabuleiro.Y_BAIXO));
+            assertFalse(temCaptura(peca, 3, 3, tabuleiro.X_ESQUERDA, tabuleiro.Y_BAIXO));
         }
     }
 
