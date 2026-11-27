@@ -92,8 +92,8 @@ class FabricaDePecasTest {
     void promocaoPedeExatamenteUmaDamaDaCorDaPedraPromovida() {
         FabricaRegistradora registro = new FabricaRegistradora();
         Jogo jogo = new Jogo(registro);
-        for (int x = 0; x < jogo.getTabuleiro().MAX_LINHAS; x++) {
-            for (int y = 0; y < jogo.getTabuleiro().MAX_COLUNAS; y++) {
+        for (int x = 0; x < Tabuleiro.MAX_LINHAS; x++) {
+            for (int y = 0; y < Tabuleiro.MAX_COLUNAS; y++) {
                 jogo.getTabuleiro().getCasa(x, y).removerPeca();
             }
         }
@@ -111,8 +111,8 @@ class FabricaDePecasTest {
         Jogo padrao = new Jogo();
         Jogo injetado = new Jogo(new FabricaRegistradora());
 
-        for (int x = 0; x < padrao.getTabuleiro().MAX_LINHAS; x++) {
-            for (int y = 0; y < padrao.getTabuleiro().MAX_COLUNAS; y++) {
+        for (int x = 0; x < Tabuleiro.MAX_LINHAS; x++) {
+            for (int y = 0; y < Tabuleiro.MAX_COLUNAS; y++) {
                 Peca a = padrao.getTabuleiro().getCasa(x, y).getPeca();
                 Peca b = injetado.getTabuleiro().getCasa(x, y).getPeca();
                 assertEquals(a == null, b == null);
