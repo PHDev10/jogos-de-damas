@@ -2,17 +2,22 @@ package com.damas.objetos;
 
 /**
  * Dama do jogo.
- * <p>Recebe uma casa e um tipo associado</p>
+ * <p>Recebe uma casa e uma cor associada</p>
  * @author João Victor da S. Cirilo {@link joao.cirilo@academico.ufpb.br}
  */
 public class Dama extends Pedra{
 
     /**
      * @param casa Objeto Casa
-     * @param tipo int tipo de peça (1 = Dama Branca, 3 = Dama vermelha) 
+     * @param cor Cor da dama (BRANCA ou VERMELHA)
      */
-    public Dama(Casa casa, int tipo) {
-        super(casa, tipo);
+    public Dama(Casa casa, Cor cor) {
+        super(casa, cor);
+    }
+
+    @Override
+    public boolean isDama() {
+        return true;
     }
 
     /**

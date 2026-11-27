@@ -5,11 +5,6 @@ package com.damas.objetos;
  * @author João Victor da S. Cirilo {@link joao.cirilo@academico.ufpb.br}
  */
 public interface Peca {
-    
-    public static final int PEDRA_BRANCA = 0;
-    public static final int DAMA_BRANCA = 1;
-    public static final int PEDRA_VERMELHA = 2;
-    public static final int DAMA_VERMELHA = 3;
 
     /**
      * Movimenta a peca para uma nova casa. Antes de trocar de casa a Peca armazena a casa no
@@ -27,20 +22,14 @@ public interface Peca {
     public boolean isMovimentoValido(Casa destino);
 
     /**
-     * Retorna o tipo da peça
-     * @return
-     * {@code int} 0 - {@code Pedra} branca
-     * <li>{@code int} 1 - {@code Dama} branca</li>
-     * <li>{@code int} 2 - {@code Pedra} vermelha</li>
-     * <li>{@code int} 3 - {@code Dama} vermelha</li>
-     */
-    public int getTipo();
-
-    /**
      * Retorna a cor da peça
-     * @return
-     * {@code Cor.BRANCA} para os tipos 0 e 1 (pedra e dama brancas)
-     * <li>{@code Cor.VERMELHA} para os tipos 2 e 3 (pedra e dama vermelhas)</li>
+     * @return {@code Cor.BRANCA} ou {@code Cor.VERMELHA}
      */
     public Cor getCor();
+
+    /**
+     * Indica a espécie da peça
+     * @return {@code true} se a peça é uma {@code Dama}, {@code false} se é uma {@code Pedra}
+     */
+    public boolean isDama();
 }

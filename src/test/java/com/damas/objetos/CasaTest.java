@@ -23,7 +23,7 @@ class CasaTest {
     @Test
     void colocarPecaFazACasaPossuirAPeca() {
         Casa casa = new Casa(0, 0);
-        Pedra pedra = new Pedra(new Casa(1, 1), Peca.PEDRA_BRANCA);
+        Pedra pedra = new Pedra(new Casa(1, 1), Cor.BRANCA);
 
         casa.colocarPeca(pedra);
 
@@ -34,7 +34,7 @@ class CasaTest {
     @Test
     void removerPecaLiberaACasa() {
         Casa casa = new Casa(2, 2);
-        new Pedra(casa, Peca.PEDRA_VERMELHA);
+        new Pedra(casa, Cor.VERMELHA);
 
         casa.removerPeca();
 
@@ -54,8 +54,8 @@ class CasaTest {
     @Test
     void colocarPecaSubstituiPecaAnteriorSemValidacao() {
         Casa casa = new Casa(4, 4);
-        Pedra primeira = new Pedra(casa, Peca.PEDRA_BRANCA);
-        Pedra segunda = new Pedra(casa, Peca.PEDRA_VERMELHA);
+        Pedra primeira = new Pedra(casa, Cor.BRANCA);
+        Pedra segunda = new Pedra(casa, Cor.VERMELHA);
 
         assertSame(segunda, casa.getPeca());
         assertFalse(casa.getPeca() == primeira);
@@ -64,7 +64,7 @@ class CasaTest {
     @Test
     void colocarPecaAceitaNull() {
         Casa casa = new Casa(4, 4);
-        new Pedra(casa, Peca.PEDRA_BRANCA);
+        new Pedra(casa, Cor.BRANCA);
 
         casa.colocarPeca(null);
 

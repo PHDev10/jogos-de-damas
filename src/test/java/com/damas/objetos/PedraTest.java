@@ -9,23 +9,25 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.EnumSource;
 
 class PedraTest {
 
     private final Tabuleiro tabuleiro = new Tabuleiro();
 
     private Pedra pedraEm44() {
-        return new Pedra(tabuleiro.getCasa(4, 4), Peca.PEDRA_BRANCA);
+        return new Pedra(tabuleiro.getCasa(4, 4), Cor.BRANCA);
     }
 
     @Test
     void construtorPosicionaAPedraNaCasa() {
         Casa casa = tabuleiro.getCasa(1, 1);
 
-        Pedra pedra = new Pedra(casa, Peca.PEDRA_VERMELHA);
+        Pedra pedra = new Pedra(casa, Cor.VERMELHA);
 
         assertSame(pedra, casa.getPeca());
-        assertEquals(Peca.PEDRA_VERMELHA, pedra.getTipo());
+        assertEquals(Cor.VERMELHA, pedra.getCor());
+        assertFalse(pedra.isDama());
     }
 
     @Test
@@ -49,14 +51,6 @@ class PedraTest {
 
         assertSame(pedra, longe.getPeca());
         assertFalse(tabuleiro.getCasa(4, 4).possuiPeca());
-    }
-
-    @Test
-    void tiposDasPecas() {
-        assertEquals(0, Peca.PEDRA_BRANCA);
-        assertEquals(1, Peca.DAMA_BRANCA);
-        assertEquals(2, Peca.PEDRA_VERMELHA);
-        assertEquals(3, Peca.DAMA_VERMELHA);
     }
 
     /**
@@ -96,8 +90,8 @@ class PedraTest {
 
     @Test
     void pedraAceitaMovimentoDeDuasCasasParaTrasSemVerificarDirecao() {
-        Pedra branca = new Pedra(tabuleiro.getCasa(4, 4), Peca.PEDRA_BRANCA);
-        Pedra vermelha = new Pedra(tabuleiro.getCasa(2, 2), Peca.PEDRA_VERMELHA);
+        Pedra branca = new Pedra(tabuleiro.getCasa(4, 4), Cor.BRANCA);
+        Pedra vermelha = new Pedra(tabuleiro.getCasa(2, 2), Cor.VERMELHA);
 
         assertTrue(branca.isMovimentoValido(tabuleiro.getCasa(2, 2)));
         assertTrue(vermelha.isMovimentoValido(tabuleiro.getCasa(4, 4)));
@@ -106,35 +100,38 @@ class PedraTest {
     @Test
     void movimentoValidoDependeApenasDaCasaDaPedraNaoDoDestinoOcupado() {
         Pedra pedra = pedraEm44();
-        new Pedra(tabuleiro.getCasa(5, 5), Peca.PEDRA_VERMELHA);
+        new Pedra(tabuleiro.getCasa(5, 5), Cor.VERMELHA);
 
         assertTrue(pedra.isMovimentoValido(tabuleiro.getCasa(5, 5)));
     }
 
     @Test
     void pedraBrancaTemCorBranca() {
-        Pedra pedra = new Pedra(tabuleiro.getCasa(0, 0), Peca.PEDRA_BRANCA);
+        Pedra pedra = new Pedra(tabuleiro.getCasa(0, 0), Cor.BRANCA);
 
         assertEquals(Cor.BRANCA, pedra.getCor());
     }
 
     @Test
     void pedraVermelhaTemCorVermelha() {
-        Pedra pedra = new Pedra(tabuleiro.getCasa(0, 0), Peca.PEDRA_VERMELHA);
+        Pedra pedra = new Pedra(tabuleiro.getCasa(0, 0), Cor.VERMELHA);
 
         assertEquals(Cor.VERMELHA, pedra.getCor());
     }
 
-    @ParameterizedTest(name = "tipo {0} -> cor {1}")
-    @CsvSource({
-            "0,BRANCA",
-            "1,BRANCA",
-            "2,VERMELHA",
-            "3,VERMELHA"
-    })
-    void getCorDerivaDoTipoDaPeca(int tipo, Cor esperada) {
-        Pedra pedra = new Pedra(tabuleiro.getCasa(0, 0), tipo);
+    @ParameterizedTest(name = "cor {0}")
+    @EnumSource(Cor.class)
+    void getCorDevolveACorInformadaNoConstrutor(Cor cor) {
+        Pedra pedra = new Pedra(tabuleiro.getCasa(0, 0), cor);
 
-        assertEquals(esperada, pedra.getCor());
+        assertEquals(cor, pedra.getCor());
+    }
+
+    @ParameterizedTest(name = "pedra {0} nao e dama")
+    @EnumSource(Cor.class)
+    void pedraNaoEDama(Cor cor) {
+        Pedra pedra = new Pedra(tabuleiro.getCasa(0, 0), cor);
+
+        assertFalse(pedra.isDama());
     }
 }
