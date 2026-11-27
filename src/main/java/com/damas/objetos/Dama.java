@@ -1,5 +1,7 @@
 package com.damas.objetos;
 
+import java.util.Optional;
+
 /**
  * Dama do jogo.
  * <p>Recebe uma casa e uma cor associada</p>
@@ -36,5 +38,51 @@ public class Dama extends PecaBase {
         int distanciaY = Math.abs((destino.getY() - casa.getY()));
 
         return distanciaX == distanciaY;
+    }
+
+    @Override
+    public boolean temCapturaNaDirecao(Tabuleiro tabuleiro, Casa origem, int deltaX, int deltaY) {
+
+        int x = origem.getX();
+        int y = origem.getY();
+        int pecasSeguidasNoCaminho = 0;
+
+        while (!((x == -1 || x == 8) || (y == -1 || y == 8))) {
+            x += deltaX;
+            y += deltaY;
+
+            try {
+                Peca pecaAtual = tabuleiro.getCasa(x, y).getPeca();
+
+                if (!( pecaAtual == null)) {
+
+                    pecasSeguidasNoCaminho += 1;
+
+                    // VERIFICA SE HÁ ALGUMA PEÇA DO MESMO TIPO NO CAMINHO SE SIM, RETORNA FALSE;
+                    if (getCor() == pecaAtual.getCor()) {
+                        return false;
+                    }
+                } else {
+
+                    if (pecasSeguidasNoCaminho == 1) {
+                        return true;
+                    }
+
+                    if (pecasSeguidasNoCaminho == 2) {
+                        return false;
+                    }
+                }
+            } catch (Exception e) {
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    protected Optional<Boolean> regraEspecificaDoMovimento(Tabuleiro tabuleiro, Casa destino,
+            int sentidoX, int sentidoY, int distanciaX, int distanciaY) {
+        return Optional.empty();
     }
 }
