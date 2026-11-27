@@ -4,7 +4,6 @@ import java.awt.Color;
 import javax.swing.JPanel;
 
 import com.damas.objetos.Casa;
-import com.damas.objetos.Cor;
 import com.damas.objetos.Jogo;
 import com.damas.objetos.Peca;
 import com.damas.objetos.Tabuleiro;
@@ -57,19 +56,7 @@ public class TabuleiroGUI extends JPanel {
                 if (casa.possuiPeca()) {
                     Peca peca = casa.getPeca();
 
-                    if (peca.getCor() == Cor.BRANCA) {
-                        if (peca.isDama()) {
-                            casaGUI.desenharDamaBranca();
-                        } else {
-                            casaGUI.desenharPedraBranca();
-                        }
-                    } else {
-                        if (peca.isDama()) {
-                            casaGUI.desenharDamaVermelha();
-                        } else {
-                            casaGUI.desenharPedraVermelha();
-                        }
-                    }
+                    casaGUI.desenharPeca(peca.getCor(), peca.isDama());
                 }
                 else {
                     casaGUI.apagarPeca();
