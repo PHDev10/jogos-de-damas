@@ -11,10 +11,7 @@ class PosicionamentoInicial {
     }
 
     void colocarPecas(Tabuleiro tabuleiro) {
-
-        // CRIA E PÕE AS PEÇAS NA PARTE INFERIOR DO TABULEIRO
         colocarPedras(tabuleiro, Cor.BRANCA, 0, LINHAS_INICIAIS_POR_JOGADOR - 1);
-        // CRIA E POE AS PEÇAS NA PARTE SUPERIOR DO TABULEIRO
         colocarPedras(tabuleiro, Cor.VERMELHA, Tabuleiro.MAX_COLUNAS - LINHAS_INICIAIS_POR_JOGADOR,
                 Tabuleiro.MAX_COLUNAS - 1);
     }

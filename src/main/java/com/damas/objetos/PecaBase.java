@@ -29,22 +29,24 @@ public abstract class PecaBase implements Peca {
     @Override
     public boolean simularMovimento(Tabuleiro tabuleiro, Casa origem, Casa destino, List<Casa> pecasAComer) {
 
-        if (destino.getPeca() != null) return false;
+        if (destino.getPeca() != null)
+            return false;
 
-        // SENTIDO DO MOVIMENTO E DISTÂNCIA DO MOVIMENTO
         int sentidoX = (destino.getX() - origem.getX());
         int sentidoY = (destino.getY() - origem.getY());
         int distanciaX = Math.abs(sentidoX);
         int distanciaY = Math.abs(sentidoY);
 
-        if ((distanciaX == 0) || (distanciaY == 0)) return false;
+        if ((distanciaX == 0) || (distanciaY == 0))
+            return false;
 
-        sentidoX = sentidoX/distanciaX;
-        sentidoY = sentidoY/distanciaY;
+        sentidoX = sentidoX / distanciaX;
+        sentidoY = sentidoY / distanciaY;
 
-        Optional<Boolean> resultadoAntecipado =
-            regraEspecificaDoMovimento(tabuleiro, destino, sentidoX, sentidoY, distanciaX, distanciaY);
-        if (resultadoAntecipado.isPresent()) return resultadoAntecipado.get();
+        Optional<Boolean> resultadoAntecipado = regraEspecificaDoMovimento(tabuleiro, destino, sentidoX, sentidoY,
+                distanciaX, distanciaY);
+        if (resultadoAntecipado.isPresent())
+            return resultadoAntecipado.get();
 
         return percorrerCaminho(tabuleiro, origem, destino, sentidoX, sentidoY, pecasAComer);
     }
@@ -65,7 +67,6 @@ public abstract class PecaBase implements Peca {
             if (pecaAlvo != null) {
                 casasComPecaSeguidas += 1;
 
-                // VE SE TEM UMA PECA DO MESMO TIPO NO CAMNHO, CASO TENHA, RETORNA FALSE
                 if (getCor() == pecaAlvo.getCor()) {
                     pecasAComer.clear();
                     return false;
@@ -73,7 +74,6 @@ public abstract class PecaBase implements Peca {
 
             } else {
 
-                // VE SE HÁ PEÇA PARA COMER NO CAMINHO E PASSAR A CASA À COLEÇÃO pecasAComer() PARA DEPOIS COME-LAS
                 if (casasComPecaSeguidas == 1) {
                     Casa casaCapturada = tabuleiro.getCasa((alvo.getX() - sentidoX), (alvo.getY() - sentidoY));
                     pecasAComer.add(casaCapturada);
@@ -93,9 +93,9 @@ public abstract class PecaBase implements Peca {
     public boolean podeContinuarCapturando(Tabuleiro tabuleiro, Casa origem) {
 
         return temCapturaNaDirecao(tabuleiro, origem, Tabuleiro.X_ESQUERDA, Tabuleiro.Y_CIMA)
-            || temCapturaNaDirecao(tabuleiro, origem, Tabuleiro.X_DIREITA, Tabuleiro.Y_CIMA)
-            || temCapturaNaDirecao(tabuleiro, origem, Tabuleiro.X_DIREITA, Tabuleiro.Y_BAIXO)
-            || temCapturaNaDirecao(tabuleiro, origem, Tabuleiro.X_ESQUERDA, Tabuleiro.Y_BAIXO);
+                || temCapturaNaDirecao(tabuleiro, origem, Tabuleiro.X_DIREITA, Tabuleiro.Y_CIMA)
+                || temCapturaNaDirecao(tabuleiro, origem, Tabuleiro.X_DIREITA, Tabuleiro.Y_BAIXO)
+                || temCapturaNaDirecao(tabuleiro, origem, Tabuleiro.X_ESQUERDA, Tabuleiro.Y_BAIXO);
     }
 
     protected abstract Optional<Boolean> regraEspecificaDoMovimento(Tabuleiro tabuleiro, Casa destino,

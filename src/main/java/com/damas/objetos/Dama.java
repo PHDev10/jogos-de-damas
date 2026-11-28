@@ -9,7 +9,6 @@ public class Dama extends PecaBase {
 
     /**
      * @param casa Objeto Casa
-     * @param cor  Cor da dama (BRANCA ou VERMELHA)
      */
     public Dama(Casa casa, Cor cor) {
         super(casa, cor);
@@ -29,7 +28,6 @@ public class Dama extends PecaBase {
      * Movimento da Dama que pode andar várias casas na diagonal
      * 
      * @param destino
-     * @return boolean. True se puder ser movida e false se não
      */
     @Override
     public boolean isMovimentoValido(Casa destino) {
@@ -57,7 +55,6 @@ public class Dama extends PecaBase {
 
                     pecasSeguidasNoCaminho += 1;
 
-                    // VERIFICA SE HÁ ALGUMA PEÇA DO MESMO TIPO NO CAMINHO SE SIM, RETORNA FALSE;
                     if (getCor() == pecaAtual.getCor()) {
                         return false;
                     }

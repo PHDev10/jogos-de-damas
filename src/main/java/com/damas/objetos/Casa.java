@@ -2,7 +2,6 @@ package com.damas.objetos;
 
 /**
  * Representa uma Casa do tabuleiro.
- * Possui uma posição (i,j) e pode conter uma Peça.
  * 
  * @author Alan Moraes &lt;alan@ci.ufpb.br&gt;
  * @author Leonardo Villeth &lt;lvilleth@cc.ci.ufpb.br&gt;
@@ -19,9 +18,6 @@ public class Casa {
         this.peca = null;
     }
 
-    /**
-     * @param peca a Peça a ser posicionada nesta Casa.
-     */
     public void colocarPeca(Peca peca) {
         this.peca = peca;
     }
